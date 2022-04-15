@@ -1,0 +1,23 @@
+RewriteEngine On
+#RewriteBase /
+
+RewriteRule ^index.html$ index.php [L]
+RewriteRule ^login.html$ login.php [L]
+RewriteRule ^logout.html$ logout.php [L]
+RewriteRule ^products.html$ products.php [QSA]
+RewriteRule ^product-details.html$ product-details.php [QSA]
+RewriteRule ^my-account.html$ my-account.php [L]
+RewriteRule ^cart.html$ cart.php [L]
+RewriteRule ^checkout.html$ checkout.php [L]
+RewriteRule ^order-success.html$ order-success.php [L]
+RewriteRule ^invoice.html$ invoice.php [QSA]
+#RewriteRule ^income-(.*).html$ index.php?p=income&id=$1 [L]
+RewriteRule ^about.html$ about.php [L]
+RewriteRule ^faq.html$ faq.php [L]
+
+RewriteRule ^404.html$ 404.php [L]
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule . / [L,R=301]
+ErrorDocument 404 "Wut!"
+
+RewriteRule ^api/(.*).json$ api/index.php?t=$1 [L]

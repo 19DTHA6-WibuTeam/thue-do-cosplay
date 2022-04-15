@@ -1,0 +1,11 @@
+RewriteEngine On
+
+RewriteRule ^index.html$ index.php [L]
+RewriteRule ^login.html$ login.php [L]
+RewriteRule ^logout.html$ logout.php [L]
+RewriteRule ^products.html$ products.php [L]
+RewriteRule ^add-product.html$ product.php?act=add [L]
+RewriteRule ^edit-product.html$ product.php?act=edit [QSA]
+RewriteRule ^income-(.*).html$ index.php?p=income&id=$1 [L]
+
+RewriteRule ^api/(.*).json$ api/index.php?t=$1 [L]
