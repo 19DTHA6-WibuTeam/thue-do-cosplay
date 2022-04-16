@@ -374,8 +374,8 @@ class Products extends DB
 	private $productWithProductType = 'SELECT product_id, product_name, P.product_type_id, PT.product_type_name, product_price, product_rental_price, product_img, product_quantity, product_sizes, product_weight, product_description FROM products P LEFT JOIN product_types PT ON P.product_type_id = PT.product_type_id';
 	public function getCount()
 	{
-		$total = mysqli_query($this->conn, "SELECT COUNT(*) AS total_products FROM products");
-		$total = mysqli_fetch_assoc($total)['total_products'];
+		$total = mysqli_query($this->conn, "SELECT COUNT(product_id) AS total FROM products");
+		$total = mysqli_fetch_assoc($total)['total'];
 		return $total;
 	}
 	public function validProduct($product_id)
@@ -466,8 +466,8 @@ class Cart extends DB
 	public function getCount($user_id)
 	{
 		$user_id = mysqli_escape_string($this->conn, $user_id);
-		$total = mysqli_query($this->conn, "SELECT COUNT(user_id) AS total_products FROM carts WHERE `user_id` = $user_id");
-		$total = mysqli_fetch_assoc($total)['total_products'];
+		$total = mysqli_query($this->conn, "SELECT COUNT(user_id) AS total FROM carts WHERE `user_id` = $user_id");
+		$total = mysqli_fetch_assoc($total)['total'];
 		return $total;
 	}
 	public function getCart($user_id)
@@ -514,8 +514,24 @@ class Cart extends DB
 		else return false;
 	}
 }
-class Invoice extends Cart
+class Invoice extends DB
 {
+	public function getCount()
+	{
+		$total = mysqli_query($this->conn, "SELECT COUNT(invoice_id) AS total FROM invoices");
+		$total = mysqli_fetch_assoc($total)['total'];
+		return $total;
+	}
+	public function getInvoices($page = 1, $limit = DATA_PER_PAGE)
+	{
+		$offset = $this->Offset($page, $limit);
+		$a = mysqli_query($this->conn, "SELECT invoice_id, invoice_user_fullname, invoice_user_phone_number, invoice_user_email, invoice_subtotal, invoice_fee_transport, invoice_fee_bond, invoice_status, invoice_created_at FROM invoices ORDER BY invoice_id DESC " . $offset);
+		$b = array();
+		if (mysqli_num_rows($a))
+			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
+		mysqli_free_result($a);
+		return $b;
+	}
 	public function getInvoice($invoice_id)
 	{
 		$invoice_id = mysqli_escape_string($this->conn, $invoice_id);
@@ -550,12 +566,13 @@ class Invoice extends Cart
 	{
 		$cart_subtotal = 0;
 		$cart_weight = 0;
-		$cart = $this->getCart($user_id);
+		$carts = new Cart;
+		$cart = $carts->getCart($user_id);
 		foreach ($cart as $k => $v) {
 			$product_id = $v['product_id'];
 			if ($v['cart_product_quantity'] > $v['product_quantity']) {
 				$cart_product_quantity = $v['product_quantity'];
-				$this->updateCart($user_id, $product_id, $cart_product_quantity);
+				$carts->updateCart($user_id, $product_id, $cart_product_quantity);
 			} else $cart_product_quantity = $v['cart_product_quantity'];
 			$cart_subtotal += $cart_product_quantity * $v['product_rental_price'];
 			$cart_weight += $cart_product_quantity * $v['product_weight'];
@@ -584,9 +601,15 @@ class Invoice extends Cart
 																VALUES ('$invoice_id', '$product_id', '$invd_product_quantity', '$invd_product_rental_price')");
 				mysqli_query($this->conn, "UPDATE products SET product_quantity = CASE WHEN product_quantity-$invd_product_quantity < 0 THEN 0 ELSE product_quantity-$invd_product_quantity END WHERE product_id = $product_id");
 			}
-			$this->deleteCartsByUserId($user_id);
+			$carts->deleteCartsByUserId($user_id);
 			return true;
 		} else return false;
+	}
+	public function updateStatus($invoice_id, $invoice_status)
+	{
+		$invoice_id = mysqli_escape_string($this->conn, $invoice_id);
+		$invoice_status = mysqli_escape_string($this->conn, $invoice_status);
+		mysqli_query($this->conn, "UPDATE invoices SET invoice_status = '$invoice_status' WHERE invoice_id = $invoice_id");
 	}
 }
 class Fee

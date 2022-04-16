@@ -7,7 +7,7 @@ if ($page < 1 || $page == '' || !is_numeric($page)) $page = 1;
 <!-- BEGIN: Page Main-->
 <div id="main">
 	<div class="row">
-		<div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+		<div class="content-wrapper-before gradient-45deg-purple-deep-purple"></div>
 		<div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
 			<!-- Search for small screen-->
 			<div class="container">
@@ -117,15 +117,6 @@ if ($page < 1 || $page == '' || !is_numeric($page)) $page = 1;
 							</div>
 						</div>
 					</div>
-				</div>
-
-				<div style="bottom: 50px; right: 19px;" class="fixed-action-btn direction-top"><a class="btn-floating btn-large gradient-45deg-light-blue-cyan gradient-shadow"><i class="material-icons">add</i></a>
-					<ul>
-						<li><a href="#" class="btn-floating blue"><i class="material-icons">help_outline</i></a></li>
-						<li><a href="#" class="btn-floating green"><i class="material-icons">widgets</i></a></li>
-						<li><a href="#" class="btn-floating amber"><i class="material-icons">today</i></a></li>
-						<li><a href="#" class="btn-floating red"><i class="material-icons">mail_outline</i></a></li>
-					</ul>
 				</div>
 			</div>
 			<div class="content-overlay"></div>

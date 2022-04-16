@@ -48,7 +48,7 @@
 						</div>
 
 						<p><span>Địa chỉ:</span> KCN cao, TP. Thủ Đức trực thuộc TP. HCM</p>
-						<p><span>Email:</span> <a href="#">info@example.com</a></p>
+						<p><span>Email:</span> <a href="javascript:void();">contact@wibuteam.phatdev.xyz</a></p>
 						<p><span>Số điện thoại:</span> <a href="tel:+84777100xxx">+84 777 100 xxx</a></p>
 					</div>
 				</div>
@@ -64,7 +64,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-3 col-md-6">
+				<!-- <div class="col-lg-3 col-md-6">
 					<div class="widgets_container widgets_p_product">
 						<h3>Featured Products</h3>
 						<div class="small_product_container small_product_column1 owl-carousel">
@@ -373,7 +373,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>

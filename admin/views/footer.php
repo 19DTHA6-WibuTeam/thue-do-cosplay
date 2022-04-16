@@ -188,6 +188,7 @@
 <script src="./app-assets/js/scripts/advance-ui-modals.js"></script>
 <script src="./app-assets/js/scripts/eCommerce-products-page.js"></script>
 <script src="./app-assets/js/scripts/form-select2.js"></script>
+<script src="./app-assets/js/scripts/app-invoice.js"></script>
 <!-- END PAGE LEVEL JS-->
 <script>
 	if (window.history.replaceState) {
