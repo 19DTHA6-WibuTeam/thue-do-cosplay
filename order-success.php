@@ -23,8 +23,8 @@ include 'views/header.php';
     <div class="container">
         <div class="checkout_form">
             <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <h3>Đặt hàng thành công! Vui lòng vào Thông tin tài khoản -> Đơn hàng để hoàn tất thanh toán và kiểm tra trạng thái đơn hàng.</h3>
+                <div class="col-lg-12 col-md-12">
+                    <h4>Đặt hàng thành công! Vui lòng vào Thông tin tài khoản -> Đơn hàng để hoàn tất thanh toán và kiểm tra trạng thái đơn hàng.</h4>
                 </div>
             </div>
         </div>

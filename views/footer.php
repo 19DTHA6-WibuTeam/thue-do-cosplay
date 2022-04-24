@@ -5,25 +5,25 @@
 			<div class="col-12">
 				<div class="brand_container owl-carousel">
 					<div class="single_brand">
-						<a href="#"><img src="assets/img/brand/brand1.webp" alt=""></a>
+						<a href="javascript:void();"><img src="assets/img/brand/brand1.webp" alt=""></a>
 					</div>
 					<div class="single_brand">
-						<a href="#"><img src="assets/img/brand/brand2.webp" alt=""></a>
+						<a href="javascript:void();"><img src="assets/img/brand/brand2.webp" alt=""></a>
 					</div>
 					<div class="single_brand">
-						<a href="#"><img src="assets/img/brand/brand3.webp" alt=""></a>
+						<a href="javascript:void();"><img src="assets/img/brand/brand3.webp" alt=""></a>
 					</div>
 					<div class="single_brand">
-						<a href="#"><img src="assets/img/brand/brand4.webp" alt=""></a>
+						<a href="javascript:void();"><img src="assets/img/brand/brand4.webp" alt=""></a>
 					</div>
 					<div class="single_brand">
-						<a href="#"><img src="assets/img/brand/brand5.webp" alt=""></a>
+						<a href="javascript:void();"><img src="assets/img/brand/brand5.webp" alt=""></a>
 					</div>
 					<div class="single_brand">
-						<a href="#"><img src="assets/img/brand/brand6.webp" alt=""></a>
+						<a href="javascript:void();"><img src="assets/img/brand/brand6.webp" alt=""></a>
 					</div>
 					<div class="single_brand">
-						<a href="#"><img src="assets/img/brand/brand2.webp" alt=""></a>
+						<a href="javascript:void();"><img src="assets/img/brand/brand2.webp" alt=""></a>
 					</div>
 				</div>
 			</div>

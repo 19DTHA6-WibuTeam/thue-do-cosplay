@@ -340,11 +340,11 @@ class User extends DB
 		unset($_SESSION['user_email']);
 		unset($_SESSION['user_token']);
 	}
-	public function Token($user)
+	public static function Token($user)
 	{
-		return JWT::encode(['uid' => encode_id($user['user_id']), 'exp' => time() + 60 * 60 * 24 * 30], SALT, 'HS512');
+		return JWT::encode(['uid' => encode_id($user['user_id']), 'iat' => time()], SALT, 'HS512');
 	}
-	public function parseToken($user_token)
+	public static function parseToken($user_token)
 	{
 		try {
 			$a = JWT::decode($user_token, SALT);
@@ -636,18 +636,30 @@ class Fee
 class API extends DB
 {
 	private $Users;
-	private $Prodcuts;
+	private $Products;
 	private $Carts;
 
 	function __construct()
 	{
 		$this->Users = new User;
-		$this->Prodcuts = new Products;
+		$this->Products = new Products;
 		$this->Carts = new Cart;
+	}
+	public function login($email, $password)
+	{
+		return $this->Users->login($email, $password);
+	}
+	public function getToken($user)
+	{
+		return $this->Users->Token($user);
 	}
 	public function parseToken($user_token)
 	{
 		return $this->Users->parseToken($user_token);
+	}
+	public function getProducts($page = 1, $limit = DATA_PER_PAGE)
+	{
+		return $this->Products->getProducts($page, $limit);
 	}
 	public function postCart($user_id, $product_id, $cart_product_quantity)
 	{

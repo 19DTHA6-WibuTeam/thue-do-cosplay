@@ -64,16 +64,61 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 
 $res['success'] = false;
-$api = new API;
+// $api = new API;
+$users = new User;
+$products = new Products;
+$product_types = new ProductTypes;
+$carts = new Cart;
+$invoices = new Invoice;
+
 switch (strtolower(getREQUEST('action'))) {
+	case 'login':
+		$a = $users->login(getREQUEST('email'), getREQUEST('password'));
+		if ($a != false) {
+			unset($a['user_password']);
+			unset($a['user_bank_account_number']);
+			unset($a['user_bank_name']);
+			$a['user_token'] = $users->Token($user);
+			$res['success'] = true;
+		} else $a = null;
+		$res['data'] = $a;
+		break;
+	case 'register':
+		$res['success'] = $users->register(getREQUEST('fullname'), getREQUEST('email'), getREQUEST('password'));
+		$res['user'] = $a;
+		break;
+	case 'get_user':
+		$a = $users->getUser(getREQUEST('user_id'));
+		if ($a != false) {
+			unset($a['user_password']);
+			$a['user_token'] = $users->Token($user);
+			$res['success'] = true;
+		} else $a = null;
+		$res['data'] = $a;
+		break;
+	case 'get_product_types':
+		$res['success'] = true;
+		$res['data'] = $product_types->getProductTypes();
+		break;
+	case 'get_products':
+		$res['success'] = true;
+		$res['data'] = $products->getProducts(getREQUEST('page'), getREQUEST('limit'));
+		break;
+	case 'get_carts':
+		$res['success'] = true;
+		$res['data'] = $carts->getCart(getREQUEST('user_id'));
+		break;
 	case 'post_cart':
-		$res['success'] = $api->postCart(getREQUEST('user_id'), getREQUEST('product_id'), getREQUEST('cart_product_quantity'));
+		$res['success'] = $carts->postCart(getREQUEST('user_id'), getREQUEST('product_id'), getREQUEST('cart_product_quantity'));
 		break;
 	case 'update_cart':
-		$res['success'] = $api->updateCart(getREQUEST('user_id'), getREQUEST('product_id'), getREQUEST('cart_product_quantity'));
+		$res['success'] = $carts->updateCart(getREQUEST('user_id'), getREQUEST('product_id'), getREQUEST('cart_product_quantity'));
 		break;
 	case 'delete_cart':
-		$res['success'] = $api->deleteCart(getREQUEST('user_id'), getREQUEST('product_id'));
+		$res['success'] = $carts->deleteCart(getREQUEST('user_id'), getREQUEST('product_id'));
+		break;
+	case 'post_invoice':
+		$res['success'] = $invoices->postInvoice(getREQUEST('user_id'), getREQUEST('user_fullname'), getREQUEST('user_phone_number'), getREQUEST('user_email'), getREQUEST('user_address'), getREQUEST('order_note'));
 		break;
 	default:
 		# code...
