@@ -108,14 +108,11 @@ function orderStatus($s)
 	switch ($s) {
 		case 0:
 			return 'Đã huỷ';
-			break;
 		case 1:
 			return 'Đang chờ thanh toán';
-			break;
 		case 2:
 			return 'Đã thanh toán';
-			break;
 		default:
-			break;
+			return '';
 	}
 }

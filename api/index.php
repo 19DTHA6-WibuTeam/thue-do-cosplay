@@ -117,8 +117,16 @@ switch (strtolower(getREQUEST('action'))) {
 	case 'delete_cart':
 		$res['success'] = $carts->deleteCart(getREQUEST('user_id'), getREQUEST('product_id'));
 		break;
+	case 'get_invoices':
+		$res['success'] = true;
+		$res['data'] = $invoices->getInvoicesByUserId(getREQUEST('user_id'), getREQUEST('page'), getREQUEST('limit'));
+		break;
 	case 'post_invoice':
 		$res['success'] = $invoices->postInvoice(getREQUEST('user_id'), getREQUEST('user_fullname'), getREQUEST('user_phone_number'), getREQUEST('user_email'), getREQUEST('user_address'), getREQUEST('order_note'));
+		break;
+	case 'get_invoice_details':
+		$res['success'] = true;
+		$res['data'] = $invoices->getInvoiceDetails(getREQUEST('invoice_id'));
 		break;
 	default:
 		# code...

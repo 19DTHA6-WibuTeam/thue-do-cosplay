@@ -361,7 +361,7 @@ class ProductTypes extends DB
 {
 	public function getProductTypes()
 	{
-		$a = mysqli_query($this->conn, "SELECT * FROM product_types");
+		$a = mysqli_query($this->conn, "SELECT PT.product_type_id, product_type_name, COUNT(PT.product_type_id) AS product_type_quantity FROM product_types PT LEFT JOIN products P ON PT.product_type_id = P.product_type_id GROUP BY PT.product_type_id");
 		$b = array();
 		if (mysqli_num_rows($a))
 			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
@@ -542,10 +542,12 @@ class Invoice extends DB
 		mysqli_free_result($a);
 		return $b;
 	}
-	public function getInvoicesByUserId($user_id)
+	public function getInvoicesByUserId($user_id, $page = 1, $limit = DATA_PER_PAGE)
 	{
 		$user_id = mysqli_escape_string($this->conn, $user_id);
-		$a = mysqli_query($this->conn, "SELECT * FROM invoices WHERE `user_id` = '$user_id' ORDER BY invoice_id DESC");
+		$offset = $this->Offset($page, $limit);
+		$a = mysqli_query($this->conn, "SELECT invoice_id, invoice_user_fullname, invoice_user_phone_number, invoice_user_email, invoice_subtotal, invoice_fee_transport, invoice_fee_bond, invoice_status, invoice_created_at FROM invoices WHERE user_id = '$user_id' ORDER BY invoice_id DESC " . $offset);
+		// $a = mysqli_query($this->conn, "SELECT * FROM invoices WHERE `user_id` = '$user_id' ORDER BY invoice_id DESC");
 		$b = array();
 		if (mysqli_num_rows($a))
 			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
