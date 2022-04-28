@@ -112,7 +112,7 @@ include 'views/header.php';
 						<?php
 						$products = new Products();
 						// $products->getProducts();
-						foreach ($products->getProducts(1, 8) as $k => $v) {
+						foreach ($products->getProducts(1, 1, 8) as $k => $v) {
 							$product_price = number_format($v['product_price'], 0, ',', '.');
 							$product_img = explode('|', $v['product_img'])[0];
 							if ($k % 2 == 0)
@@ -208,12 +208,12 @@ include 'views/header.php';
 <!--testimonial area end-->
 
 <!--product area start-->
-<div class="product_area mb-70">
+<!-- <div class="product_area mb-70">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
 				<div class="section_title">
-					<h2>Bán chạy nhất</h2>
+					<h2>Thuê nhiều nhất</h2>
 				</div>
 			</div>
 		</div>
@@ -229,13 +229,9 @@ include 'views/header.php';
 									<div class="action_links">
 										<ul>
 											<li class="add_to_cart"><a href="cart.html" title="Add to cart"><i class="zmdi zmdi-shopping-cart"></i></a></li>
-
 											<li class="wishlist"><a href="wishlist.html" title="Add to Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a></li>
-
 											<li class="compare"><a href="#" title="Add to Compare"><i class="zmdi zmdi-shuffle"></i></a></li>
-
 											<li class="quick_button"><a href="#" data-bs-toggle="modal" data-bs-target="#modal_box" title="quick view"> <i class="zmdi zmdi-eye"></i></a></li>
-
 										</ul>
 									</div>
 									<div class="product_content">
@@ -246,7 +242,6 @@ include 'views/header.php';
 										</div>
 									</div>
 								</div>
-
 							</figure>
 						</article>
 					</div>
@@ -441,9 +436,8 @@ include 'views/header.php';
 				</div>
 			</div>
 		</div>
-
 	</div>
-</div>
+</div> -->
 <!--product area end-->
 
 <!--newsletter area start-->
