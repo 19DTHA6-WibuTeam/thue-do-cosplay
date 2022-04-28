@@ -72,7 +72,7 @@ $product_imgs = explode('|', $product['product_img']);
 			</div>
 			<div class="col-lg-6 col-md-6">
 				<div class="product_d_right">
-					<form>
+					<form onsubmit="return false">
 						<h1><?php echo $product['product_name']; ?></h1>
 						<!-- <div class="product_nav">
                             <ul>
@@ -110,8 +110,8 @@ $product_imgs = explode('|', $product['product_img']);
 						<div class="product_variant quantity">
 							<?php if ($product['product_quantity'] > 0) { ?>
 								<label>Số lượng</label>
-								<input min="1" max="100" value="1" type="number" /><br />
-								<button class="button" onclick="add_to_cart(<?php echo $product['product_id']; ?>);">Thêm vào giỏ hàng</button>
+								<input min="1" max="100" value="1" type="number" id="product_quantity" /><br />
+								<button class="button" onclick="add_to_cart_(<?php echo $product['product_id']; ?>);">Thêm vào giỏ hàng</button>
 							<?php } else echo '<button class="button" disabled>Hết hàng</button>'; ?>
 						</div>
 						<div class=" product_d_action">
@@ -314,8 +314,8 @@ $product_imgs = explode('|', $product['product_img']);
 										<a class="primary_img" href="product-details.html"><img src="' . $product_img . '" alt=""></a>
 										<div class="action_links">
 											<ul>
-												<li class="add_to_cart"><a href="cart.html" title="Thêm vào giỏ hàng"><i class="zmdi zmdi-shopping-cart"></i></a></li>
-												<!--<li class="wishlist"><a href="wishlist.html" title="Add to Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a></li>
+											<li class="add_to_cart"><a href="javascript:" onclick="add_to_cart(' . $v['product_id'] . ');" title="Thêm vào giỏ hàng"><i class="zmdi zmdi-shopping-cart"></i></a></li>
+											<!--<li class="wishlist"><a href="wishlist.html" title="Add to Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a></li>
 												<li class="compare"><a href="#" title="Add to Compare"><i class="zmdi zmdi-shuffle"></i></a></li>-->
 												<li class="quick_button"><a href="#" data-bs-toggle="modal" data-bs-target="#modal_box" title="Xem thông tin"> <i class="zmdi zmdi-eye"></i></a></li>
 											</ul>

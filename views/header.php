@@ -88,7 +88,7 @@ if (strpos(strtolower($_SERVER['REQUEST_URI']), 'checkout.')) {
 								<li class="search_box"><a href="javascript:void(0)"><i class="zmdi zmdi-search zmdi-hc-fw"></i></a>
 									<div class="search_widget">
 										<form action="#">
-											<input placeholder="Search our catalog" type="text">
+											<input placeholder="Tìm kiếm sản phẩm (từ khoá tối thiểu 3 kí tự)" type="text" />
 											<button type="submit"><i class="zmdi zmdi-search zmdi-hc-fw"></i></button>
 										</form>
 									</div>
@@ -188,7 +188,7 @@ if (strpos(strtolower($_SERVER['REQUEST_URI']), 'checkout.')) {
 						</div>
 
 						<div class="Offcanvas_footer">
-							<span><a href="javascript:void();"><i class="fa fa-envelope-o"></i> info@yourdomain.com</a></span>
+							<span><a href="javascript:void();"><i class="fa fa-envelope-o"></i> admin@wibuteam.phatdev.xyz</a></span>
 							<ul>
 								<li class="facebook"><a href="javascript:void();"><i class="fa fa-facebook"></i></a></li>
 								<li class="twitter"><a href="javascript:void();"><i class="fa fa-twitter"></i></a></li>
@@ -290,8 +290,8 @@ if (strpos(strtolower($_SERVER['REQUEST_URI']), 'checkout.')) {
 									<ul>
 										<li class="search_box"><a href="javascript:void(0)"><i class="zmdi zmdi-search zmdi-hc-fw"></i></a>
 											<div class="search_widget">
-												<form action="#">
-													<input placeholder="Search our catalog" type="text">
+												<form action="products.html" method="GET">
+													<input placeholder="Tìm kiếm sản phẩm (từ khoá tối thiểu 3 kí tự)" type="text" name="keyword" />
 													<button type="submit"><i class="zmdi zmdi-search zmdi-hc-fw"></i></button>
 												</form>
 											</div>

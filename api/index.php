@@ -96,13 +96,20 @@ switch (strtolower(getREQUEST('action'))) {
 		} else $a = null;
 		$res['data'] = $a;
 		break;
+	case 'update_user':
+		$res['success'] = $users->updateUser(getREQUEST('user_id'), getREQUEST('user_fullname'), getREQUEST('user_email'), getREQUEST('user_phone_number'), getREQUEST('user_address'), getREQUEST('user_bank_account_number'), getREQUEST('user_bank_name'));
+		break;
 	case 'get_product_types':
 		$res['success'] = true;
 		$res['data'] = $product_types->getProductTypes();
 		break;
 	case 'get_products':
 		$res['success'] = true;
-		$res['data'] = $products->getProducts(getREQUEST('page'), getREQUEST('limit'));
+		$res['data'] = $products->getProducts(1, getREQUEST('page'), getREQUEST('limit'));
+		break;
+	case 'search_products':
+		$res['success'] = true;
+		$res['data'] = $products->search(getREQUEST('keyword'), getREQUEST('page'), getREQUEST('limit'));
 		break;
 	case 'get_carts':
 		$res['success'] = true;

@@ -387,10 +387,25 @@ class Products extends DB
 		mysqli_free_result($a);
 		return $b;
 	}
-	public function getProducts($page = 1, $limit = DATA_PER_PAGE)
+	public function getProducts($order_by = 1, $page = 1, $limit = DATA_PER_PAGE)
 	{
+		$order_by = mysqli_escape_string($this->conn, $order_by);
+		switch ($order_by) {
+			case 1:
+				$order_by_ = 'product_id DESC';
+				break;
+			case 2:
+				$order_by_ = 'product_rental_price ASC';
+				break;
+			case 3:
+				$order_by_ = 'product_rental_price DESC';
+				break;
+			default:
+				$order_by_ = 'product_id DESC';
+				break;
+		}
 		$offset = $this->Offset($page, $limit);
-		$a = mysqli_query($this->conn, $this->productWithProductType . ' ORDER BY product_id DESC ' . $offset);
+		$a = mysqli_query($this->conn, $this->productWithProductType . ' ORDER BY ' . $order_by_ . ' ' . $offset);
 		$b = array();
 		if (mysqli_num_rows($a))
 			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
@@ -457,6 +472,25 @@ class Products extends DB
 			else return false;
 		} else return false;
 	}
+	public function search($keyword, $page = 1, $limit = DATA_PER_PAGE)
+	{
+		$keyword = mysqli_escape_string($this->conn, $keyword);
+		$offset = $this->Offset($page, $limit);
+		$a = mysqli_query($this->conn, $this->productWithProductType . " WHERE MATCH(product_name) AGAINST ('$keyword') ORDER BY product_id DESC " . $offset);
+		$b = array();
+		if (mysqli_num_rows($a))
+			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
+		else $b = false;
+		mysqli_free_result($a);
+		return $b;
+	}
+	public function getCountSearch($keyword)
+	{
+		$keyword = mysqli_escape_string($this->conn, $keyword);
+		$total = mysqli_query($this->conn, "SELECT COUNT(product_id) AS total FROM products WHERE MATCH(product_name) AGAINST ('$keyword')");
+		$total = mysqli_fetch_assoc($total)['total'];
+		return $total;
+	}
 }
 class Product extends Products
 {
@@ -485,7 +519,7 @@ class Cart extends DB
 		$user_id = mysqli_escape_string($this->conn, $user_id);
 		$product_id = mysqli_escape_string($this->conn, $product_id);
 		$cart_product_quantity = mysqli_escape_string($this->conn, $cart_product_quantity);
-		$b = mysqli_query($this->conn, "INSERT INTO carts VALUES ('$user_id', '$product_id', '$cart_product_quantity') ON DUPLICATE KEY UPDATE cart_product_quantity = cart_product_quantity + 1");
+		$b = mysqli_query($this->conn, "INSERT INTO carts VALUES ('$user_id', '$product_id', '$cart_product_quantity') ON DUPLICATE KEY UPDATE cart_product_quantity = cart_product_quantity + $cart_product_quantity");
 		if ($b) return true;
 		else return false;
 	}
@@ -674,84 +708,5 @@ class API extends DB
 	public function deleteCart($user_id, $product_id)
 	{
 		return $this->Carts->deleteCart($user_id, $product_id);
-	}
-}
-class Search extends DB
-{
-	public function WW($kw, $k_size, $k_product_code, $k_hole_coefficient, $k_color, $warehouse_id)
-	{
-		$kw = mysqli_escape_string($this->conn, $kw);
-		$k_size = mysqli_escape_string($this->conn, $k_size);
-		$k_product_code = mysqli_escape_string($this->conn, $k_product_code);
-		$k_hole_coefficient = mysqli_escape_string($this->conn, $k_hole_coefficient);
-		$k_color = mysqli_escape_string($this->conn, $k_color);
-		$warehouse_id = mysqli_escape_string($this->conn, $warehouse_id);
-		$arr = array_unique(explode(' ', $kw), SORT_REGULAR);
-		$q = '';
-		if (!empty($kw))
-			if ($k_size == 'on' || $k_product_code == 'on' || $k_hole_coefficient == 'on' || $k_color == 'on') {
-				foreach ($arr as $k => $v)
-					if ($v != '') {
-						$q_ = '';
-						$q_ .= $k_size == 'on' ? "size LIKE '%$v%' OR " : '';
-						$q_ .= $k_product_code == 'on' ? "product_code LIKE '%$v%' OR " : '';
-						$q_ .= $k_hole_coefficient == 'on' ? "hole_coefficient LIKE '%$v%' OR " : '';
-						$q_ .= $k_color == 'on' ? "color LIKE '%$v%' OR " : '';
-						$q_ = substr($q_, 0, -4);
-						$q .= "($q_) OR ";
-					}
-				$q = substr($q, 0, -4);
-			} else {
-				$ww_id = '';
-				foreach ($arr as $k => $v)
-					if (strpos(strtoupper($v), '#MX') !== FALSE) {
-						$ww_id = str_replace(array('#mx', '#MX'), '', $v);
-						array_splice($arr, $k, 1);
-						break;
-					}
-				$str_c = 0;
-				foreach ($arr as $k => $v) {
-					if ($v != '') $q .= "(size LIKE '%$v%' OR product_code LIKE '%$v%' OR hole_coefficient LIKE '%$v%' OR color LIKE '%$v%') AND ";
-					$str_c++;
-				}
-				if ($warehouse_id > 0) $q .= "W.warehouse_id = $warehouse_id AND ";
-				$q = substr($q, 0, -5);
-				if ($str_c > 1) $q = '(' . $q . ')';
-				if ($ww_id) {
-					if ($str_c > 0) $q .= ' OR ';
-					$q .= "(WW.ww_id = '$ww_id')";
-				}
-			}
-		else {
-			if ($warehouse_id > 0) $q .= "W.warehouse_id = $warehouse_id";
-		}
-		if (empty($q)) return false;
-		// var_dump("SELECT WW.ww_id, size, product_code, hole_coefficient, color, J_ET, lo_lap, percent, note, made_in, CASE WHEN IFNULL(SUM(WWD.quantity), 0) > 0 THEN CONCAT('[', GROUP_CONCAT(JSON_OBJECT('ww_id',WW.ww_id,'warehouse_id',WWD.warehouse_id,'name', W.name,'quantity',WWD.quantity)), ']') ELSE '[]' END AS warehouse_details, IFNULL(SUM(WWD.quantity), 0) AS quantity, cost, price, new_wheel, images, last_date FROM wheel_warehouse WW LEFT JOIN wheel_warehouse_details WWD ON WW.ww_id = WWD.ww_id LEFT JOIN warehouses W ON WWD.warehouse_id = W.warehouse_id WHERE $q GROUP BY WW.ww_id");
-		$a = mysqli_query($this->conn, "SELECT WW.ww_id, size, product_code, hole_coefficient, color, J_ET, lo_lap, percent, note, made_in, CASE WHEN IFNULL(SUM(WWD.quantity), 0) > 0 THEN CONCAT('[', GROUP_CONCAT(JSON_OBJECT('ww_id',WW.ww_id,'warehouse_id',WWD.warehouse_id,'name', W.name,'quantity',WWD.quantity)), ']') ELSE '[]' END AS warehouse_details, IFNULL(SUM(WWD.quantity), 0) AS quantity, cost, price, new_wheel, images, last_date FROM wheel_warehouse WW LEFT JOIN wheel_warehouse_details WWD ON WW.ww_id = WWD.ww_id LEFT JOIN warehouses W ON WWD.warehouse_id = W.warehouse_id WHERE $q GROUP BY WW.ww_id");
-		$b = array();
-		if (mysqli_num_rows($a))
-			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
-		else $b = false;
-		mysqli_free_result($a);
-		return $b;
-	}
-	public function TW($kw)
-	{
-		$kw = mysqli_escape_string($this->conn, $kw);
-		$arr = array_unique(explode(' ', $kw), SORT_REGULAR);
-		$q = '';
-		if (empty($kw)) {
-			foreach ($arr as $k => $v) $q .= "(size LIKE '%$v%' OR product_code LIKE '%$v%' OR brand LIKE '%$v%') AND ";
-			$q = substr($q, 0, -5);
-		}
-		if (!empty($q)) return false;
-		$a = mysqli_query($this->conn, "SELECT tw_id, size, product_code, brand, made_in, ma_gai, note, date, quantity, cost, price, TW.warehouse_id, W.name AS warehouse_name, last_date FROM tire_warehouse TW LEFT JOIN warehouses W ON TW.warehouse_id = W.warehouse_id
-											WHERE $q");
-		$b = array();
-		if (mysqli_num_rows($a))
-			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
-		else $b = false;
-		mysqli_free_result($a);
-		return $b;
 	}
 }

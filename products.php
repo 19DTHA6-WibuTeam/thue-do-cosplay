@@ -3,6 +3,15 @@ include 'views/header.php';
 
 $page = $_GET['page'];
 if ($page < 1 || $page == '' || !is_numeric($page)) $page = 1;
+
+$products = new Products();
+if (!empty(getGET('keyword'))) {
+	$listProducts = $products->search(getGET('keyword'));
+	$total = $products->getCountSearch(getGET('keyword'));
+} else {
+	$listProducts = $products->getProducts(getGET('order_by'), $page);
+	$total = $products->getCount();
+}
 ?>
 <!--breadcrumbs area start-->
 <div class="breadcrumbs_area">
@@ -35,15 +44,15 @@ if ($page < 1 || $page == '' || !is_numeric($page)) $page = 1;
 					</div>
 					<div class=" niceselect_option">
 						<form class="select_option" id="select_option" action="#">
-							<select class="select2 browser-default" name="orderby" id="orderby">
+							<select class="select2 browser-default" name="order_by" id="order_by">
 								<!-- <option selected value="1"></option>
 								<option value="2"></option>
 								<option value="3"></option> -->
 								<?php
-								$orderby = array('Xếp theo mới nhất', 'Xếp theo giá: từ thấp đến cao', 'Xếp theo giá: từ cao xuống thấp');
-								for ($i = 0; $i < count($orderby); $i++) {
-									$od = $orderby[$i];
-									echo '<option value="' . ($i + 1) . '"' . ($i + 1 == $_GET['orderby'] ? ' selected' : '') . '>' . $od . '</option>';
+								$order_by = array('Xếp theo mới nhất', 'Xếp theo giá: từ thấp đến cao', 'Xếp theo giá: từ cao xuống thấp');
+								for ($i = 0; $i < count($order_by); $i++) {
+									$od = $order_by[$i];
+									echo '<option value="' . ($i + 1) . '"' . ($i + 1 == $_GET['order_by'] ? ' selected' : '') . '>' . $od . '</option>';
 								}
 								?>
 
@@ -51,7 +60,7 @@ if ($page < 1 || $page == '' || !is_numeric($page)) $page = 1;
 						</form>
 					</div>
 					<div class="page_amount">
-						<p>Đang hiển thị 1–24 trong tổng số 21 kết quả</p>
+						<p>Đang hiển thị 1–24 trong tổng số <?php echo count($listProducts); ?> kết quả</p>
 					</div>
 				</div>
 				<!--shop toolbar end-->
@@ -115,8 +124,7 @@ if ($page < 1 || $page == '' || !is_numeric($page)) $page = 1;
 						</article>
 					</div> -->
 					<?php
-					$products = new Products();
-					foreach ($products->getProducts() as $k => $v) {
+					foreach ($listProducts as $k => $v) {
 						$product_id = $v['product_id'];
 						$product_img = explode('|', $v['product_img'])[0];
 						echo '<div class="col-lg-3 col-md-4 col-12 ">
@@ -169,13 +177,13 @@ if ($page < 1 || $page == '' || !is_numeric($page)) $page = 1;
 							<li class="next"><a href="#">next</a></li>
 							<li><a href="#">>></a></li> -->
 							<?php
-							$total = $products->getCount();
+							// $total = $listCount;
 							$limit = (($page - 1) * DATA_PER_PAGE) . ',' . DATA_PER_PAGE;
 							$end_page =  ceil($total / DATA_PER_PAGE);
 							$page_item = [];
 							for ($i = 1; $i <= $end_page; $i++) if (abs($page - $i) <= 3 || $i == 1 || $i == $end_page) {
 								$page_item[] = $i;
-								echo '<li class="' . ($page == $i ? 'current' : '') . '"><a href="javascript:void()" onclick="pagination(' . $i . ')">' . $i . '</a></li>';
+								echo '<li class="' . ($page == $i ? 'current' : '') . '"><a href="javascript:" onclick="pagination(' . $i . ')">' . $i . '</a></li>';
 							}
 							?>
 
