@@ -136,15 +136,6 @@ include 'views/header.php';
 												<!--<span class="old_price">$420.00</span>-->
 												<span class="current_price">' . $product_price . 'đ</span>
 											</div>
-											<div class="product_rating">
-												<ul>
-													<li><a href="javascript:void();"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-													<li><a href="javascript:void();"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-													<li><a href="javascript:void();"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-													<li><a href="javascript:void();"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-													<li><a href="javascript:void();"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-												</ul>
-											</div>
 										</figcaption>
 									</figure>
 								</article>';

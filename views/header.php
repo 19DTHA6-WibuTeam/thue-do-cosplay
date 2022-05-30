@@ -59,29 +59,6 @@ if (strpos(strtolower($_SERVER['REQUEST_URI']), 'checkout.')) {
 							<a href="javascript:void(0)"><i class="ion-android-close"></i></a>
 						</div>
 						<div class="header_account">
-							<!-- <ul>
-								<li class="language"><a href="javascript:void();"><img src="assets/img/icon/language.webp" alt=""> VI <i class="zmdi zmdi-chevron-down zmdi-hc-fw"></i></a>
-									<ul class="dropdown_language">
-										<li><a href="javascript:void();">Vietnamese</a></li>
-										<li><a href="javascript:void();">English</a></li>
-									</ul>
-								</li>
-								<li class="currency"><a href="javascript:void();"> USD <i class="zmdi zmdi-chevron-down zmdi-hc-fw"></i></a>
-									<ul class="dropdown_currency">
-										<li><a href="javascript:void();">EUR – Euro</a></li>
-										<li><a href="javascript:void();">GBP – British Pound</a></li>
-										<li><a href="javascript:void();">INR – India Rupee</a></li>
-									</ul>
-								</li>
-								<li class="top_links"><a href="javascript:void();"> My Account <i class="zmdi zmdi-chevron-down zmdi-hc-fw"></i></a>
-									<ul class="dropdown_links">
-										<li><a href="checkout.html">Checkout </a></li>
-										<li><a href="my-account.html">My Account </a></li>
-										<li><a href="cart.html">Shopping Cart</a></li>
-										<li><a href="wishlist.html">Wishlist</a></li>
-									</ul>
-								</li>
-							</ul> -->
 						</div>
 						<div class="header_right_info">
 							<ul>
@@ -97,44 +74,6 @@ if (strpos(strtolower($_SERVER['REQUEST_URI']), 'checkout.')) {
 								<li class="mini_cart_wrapper"><a href="cart.html"><i class="zmdi zmdi-shopping-cart zmdi-hc-fw"></i></a>
 									<!--mini cart-->
 									<div class="mini_cart">
-										<!-- <div class="cart_gallery">
-											<div class="cart_item">
-												<div class="cart_img">
-													<a href="javascript:void();"><img src="assets/img/s-product/product.webp" alt=""></a>
-												</div>
-												<div class="cart_info">
-													<a href="javascript:void();">Quisque In Arcu</a>
-													<p><span> $65.00 </span> X 1</p>
-												</div>
-												<div class="cart_remove">
-													<a href="javascript:void();"><i class="ion-android-close"></i></a>
-												</div>
-											</div>
-											<div class="cart_item">
-												<div class="cart_img">
-													<a href="javascript:void();"><img src="assets/img/s-product/product2.webp" alt=""></a>
-												</div>
-												<div class="cart_info">
-													<a href="javascript:void();">Donec Ac Tempus</a>
-													<p><span> $60.00 </span> X 1</p>
-												</div>
-												<div class="cart_remove">
-													<a href="javascript:void();"><i class="ion-android-close"></i></a>
-												</div>
-											</div>
-										</div>
-										<div class="mini_cart_table">
-											<div class="cart_table_border">
-												<div class="cart_total">
-													<span>Sub total:</span>
-													<span class="price">$125.00</span>
-												</div>
-												<div class="cart_total mt-10">
-													<span>total:</span>
-													<span class="price">$125.00</span>
-												</div>
-											</div>
-										</div> -->
 										<div class="mini_cart_footer">
 											<div class="cart_button">
 												<a href="cart.html">Xem giỏ hàng</a>
@@ -192,9 +131,6 @@ if (strpos(strtolower($_SERVER['REQUEST_URI']), 'checkout.')) {
 							<ul>
 								<li class="facebook"><a href="javascript:void();"><i class="fa fa-facebook"></i></a></li>
 								<li class="twitter"><a href="javascript:void();"><i class="fa fa-twitter"></i></a></li>
-								<li class="pinterest"><a href="javascript:void();"><i class="fa fa-pinterest-p"></i></a></li>
-								<li class="google-plus"><a href="javascript:void();"><i class="fa fa-google-plus"></i></a></li>
-								<li class="linkedin"><a href="javascript:void();"><i class="fa fa-linkedin"></i></a></li>
 							</ul>
 						</div>
 					</div>
