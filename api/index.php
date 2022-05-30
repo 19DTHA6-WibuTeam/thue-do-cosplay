@@ -109,7 +109,7 @@ switch (strtolower(getREQUEST('action'))) {
 		break;
 	case 'search_products':
 		$res['success'] = true;
-		$res['data'] = $products->search(getREQUEST('keyword'), getREQUEST('page'), getREQUEST('limit'));
+		$res['data'] = $products->search(getREQUEST('keyword'), 1, getREQUEST('page'), getREQUEST('limit'));
 		break;
 	case 'get_carts':
 		$res['success'] = true;

@@ -44,11 +44,11 @@ include 'views/header.php';
 			<div class="col-lg-4 col-md-4">
 				<figure class="single_banner">
 					<div class="banner_thumb">
-						<a href="shop.html"><img src="assets/img/bg/banner1.webp" alt=""></a>
+						<img src="assets/img/bg/banner1.webp" alt="">
 						<div class="banner_conent">
-							<h3>sale up to</h3>
-							<h2>50%</h2>
-							<p>Hoodies <span> & </span> Sweatshirts</p>
+							<h3>Đặt hàng Online</h3>
+							<h2></h2>
+							<p>Tiện lợi & Nhanh chóng</p>
 						</div>
 					</div>
 				</figure>
@@ -56,23 +56,23 @@ include 'views/header.php';
 			<div class="col-lg-4 col-md-4">
 				<figure class="single_banner">
 					<div class="banner_thumb">
-						<a href="shop.html"><img src="assets/img/bg/banner2.webp" alt=""></a>
-						<div class="banner_conent">
-							<h3>sale up to</h3>
-							<h2>70%</h2>
-							<p>Caps & Hats</p>
-						</div>
-					</div>
-				</figure>
-			</div>
-			<div class="col-lg-4 col-md-4">
-				<figure class="single_banner">
-					<div class="banner_thumb">
-						<a href="shop.html"><img src="assets/img/bg/banner3.webp" alt=""></a>
+						<img src="assets/img/bg/banner2.webp" alt="">
 						<div class="banner_conent">
 							<h3>model & Trending</h3>
-							<h2>2021</h2>
-							<p>winter collections</p>
+							<h2>2022</h2>
+							<p>cosplay</p>
+						</div>
+					</div>
+				</figure>
+			</div>
+			<div class="col-lg-4 col-md-4">
+				<figure class="single_banner">
+					<div class="banner_thumb">
+						<img src="assets/img/bg/banner3.webp" alt="">
+						<div class="banner_conent">
+							<h3>đa dạng</h3>
+							<h2></h2>
+							<p>trang phục, phụ kiện</p>
 						</div>
 					</div>
 				</figure>
@@ -113,6 +113,7 @@ include 'views/header.php';
 						$products = new Products();
 						// $products->getProducts();
 						foreach ($products->getProducts(1, 1, 8) as $k => $v) {
+							$product_id = $v['product_id'];
 							$product_price = number_format($v['product_price'], 0, ',', '.');
 							$product_img = explode('|', $v['product_img'])[0];
 							if ($k % 2 == 0)
@@ -120,19 +121,17 @@ include 'views/header.php';
 							echo '<article class="single_product">
 									<figure>
 										<div class="product_thumb">
-											<a class="primary_img" href="product-details.html?product_id=' . $v['product_id'] . '"><img src="' . $product_img . '" alt=""></a>
+											<a class="primary_img" href="product-details.html?product_id=' . $product_id . '"><img src="' . $product_img . '" alt=""></a>
 											<!--<a class="secondary_img" href="product-details.html"><img src="assets/img/product/product8.webp" alt=""></a>-->
 											<div class="action_links">
 												<ul>
-													<li class="add_to_cart"><a href="javascript:" onclick="add_to_cart(' . $v['product_id'] . ');" title="Thêm vào giỏ hàng"><i class="zmdi zmdi-shopping-cart"></i></a></li>
-													<!--<li class="wishlist"><a href="wishlist.html" title="Add to Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a></li>
-													<li class="compare"><a href="#" title="Add to Compare"><i class="zmdi zmdi-shuffle"></i></a></li>-->
-													<li class="quick_button"><a href="#" data-bs-toggle="modal" data-bs-target="#modal_box" title="Xem thông tin"> <i class="zmdi zmdi-eye"></i></a></li>
+													<li class="add_to_cart"><a href="javascript:" onclick="add_to_cart(' . $product_id . ');" title="Thêm vào giỏ hàng"><i class="zmdi zmdi-shopping-cart"></i></a></li>
+													<li class="quick_button"><a href="product-details.html?product_id=' . $product_id . '" title="Xem thông tin"> <i class="zmdi zmdi-eye"></i></a></li>
 												</ul>
 											</div>
 										</div>
 										<figcaption class="product_content">
-											<h4 class="product_name"><a href="product-details.html?product_id=' . $v['product_id'] . '">' . $v['product_name'] . '</a></h4>
+											<h4 class="product_name"><a href="product-details.html?product_id=' . $product_id . '">' . $v['product_name'] . '</a></h4>
 											<div class="price_box">
 												<!--<span class="old_price">$420.00</span>-->
 												<span class="current_price">' . $product_price . 'đ</span>
@@ -447,22 +446,20 @@ include 'views/header.php';
 			<div class="col-12">
 				<div class="newsletter_container">
 					<div class="newsletter_title">
-						<h3>NEWSLETTER</h3>
-						<p>It is a long established fact that a reader will be distracted by the readable
-							content of a page when looking at its layout.</p>
+						<h3>WIBUSHOP</h3>
+						<p>Săn trang phục, phụ kiện Cosplay...</p>
 					</div>
-					<div class="subscribe_form">
+					<!-- <div class="subscribe_form">
 						<form id="mc-form" class="mc-form footer-newsletter">
 							<input id="mc-email" type="email" autocomplete="off" placeholder="Enter you email address here..." />
 							<button id="mc-submit">Subscribe</button>
 						</form>
-						<!-- mailchimp-alerts Start -->
 						<div class="mailchimp-alerts text-centre">
-							<div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
-							<div class="mailchimp-success"></div><!-- mailchimp-success end -->
-							<div class="mailchimp-error"></div><!-- mailchimp-error end -->
-						</div><!-- mailchimp-alerts end -->
-					</div>
+							<div class="mailchimp-submitting"></div>
+							<div class="mailchimp-success"></div>
+							<div class="mailchimp-error"></div>
+						</div>
+					</div> -->
 				</div>
 			</div>
 		</div>

@@ -372,6 +372,24 @@ class ProductTypes extends DB
 class Products extends DB
 {
 	private $productWithProductType = 'SELECT product_id, product_name, P.product_type_id, PT.product_type_name, product_price, product_rental_price, product_img, product_quantity, product_sizes, product_weight, product_description FROM products P LEFT JOIN product_types PT ON P.product_type_id = PT.product_type_id';
+	private function orderBy($order_by)
+	{
+		$order_by = mysqli_escape_string($this->conn, $order_by);
+		switch ($order_by) {
+			case 1:
+				return 'product_id DESC';
+				break;
+			case 2:
+				return 'product_rental_price ASC';
+				break;
+			case 3:
+				return 'product_rental_price DESC';
+				break;
+			default:
+				return 'product_id DESC';
+				break;
+		}
+	}
 	public function getCount()
 	{
 		$total = mysqli_query($this->conn, "SELECT COUNT(product_id) AS total FROM products");
@@ -389,23 +407,9 @@ class Products extends DB
 	}
 	public function getProducts($order_by = 1, $page = 1, $limit = DATA_PER_PAGE)
 	{
-		$order_by = mysqli_escape_string($this->conn, $order_by);
-		switch ($order_by) {
-			case 1:
-				$order_by_ = 'product_id DESC';
-				break;
-			case 2:
-				$order_by_ = 'product_rental_price ASC';
-				break;
-			case 3:
-				$order_by_ = 'product_rental_price DESC';
-				break;
-			default:
-				$order_by_ = 'product_id DESC';
-				break;
-		}
+		$order_by = $this->orderBy($order_by);
 		$offset = $this->Offset($page, $limit);
-		$a = mysqli_query($this->conn, $this->productWithProductType . ' ORDER BY ' . $order_by_ . ' ' . $offset);
+		$a = mysqli_query($this->conn, $this->productWithProductType . ' ORDER BY ' . $order_by . ' ' . $offset);
 		$b = array();
 		if (mysqli_num_rows($a))
 			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
@@ -422,16 +426,24 @@ class Products extends DB
 		mysqli_free_result($a);
 		return $b;
 	}
-	public function getProductsByProductTypeId($product_type_id, $page = 1, $limit = DATA_PER_PAGE)
+	public function getProductsByProductTypeId($product_type_id, $order_by = 1, $page = 1, $limit = DATA_PER_PAGE)
 	{
 		$product_type_id = mysqli_escape_string($this->conn, $product_type_id);
+		$order_by = $this->orderBy($order_by);
 		$offset = $this->Offset($page, $limit);
-		$a = mysqli_query($this->conn,  $this->productWithProductType . " WHERE P.product_type_id = '$product_type_id' ORDER BY product_id DESC " . $offset);
+		$a = mysqli_query($this->conn,  $this->productWithProductType . " WHERE P.product_type_id = '$product_type_id' ORDER BY $order_by " . $offset);
 		$b = array();
 		if (mysqli_num_rows($a))
 			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
 		mysqli_free_result($a);
 		return $b;
+	}
+	public function getCountProductsByProductTypeId($product_type_id)
+	{
+		$product_type_id = mysqli_escape_string($this->conn, $product_type_id);
+		$total = mysqli_query($this->conn, "SELECT COUNT(product_id) AS total FROM products WHERE product_type_id = '$product_type_id'");
+		$total = mysqli_fetch_assoc($total)['total'];
+		return $total;
 	}
 	public function postProduct($product_name, $product_type_id, $product_price, $product_rental_price, $product_img, $product_quantity, $product_sizes, $product_weight, $product_description)
 	{
@@ -472,11 +484,12 @@ class Products extends DB
 			else return false;
 		} else return false;
 	}
-	public function search($keyword, $page = 1, $limit = DATA_PER_PAGE)
+	public function search($keyword, $order_by = 1, $page = 1, $limit = DATA_PER_PAGE)
 	{
 		$keyword = mysqli_escape_string($this->conn, $keyword);
+		$order_by = $this->orderBy($order_by);
 		$offset = $this->Offset($page, $limit);
-		$a = mysqli_query($this->conn, $this->productWithProductType . " WHERE MATCH(product_name) AGAINST ('$keyword') ORDER BY product_id DESC " . $offset);
+		$a = mysqli_query($this->conn, $this->productWithProductType . " WHERE MATCH(product_name) AGAINST ('$keyword') ORDER BY $order_by " . $offset);
 		$b = array();
 		if (mysqli_num_rows($a))
 			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));

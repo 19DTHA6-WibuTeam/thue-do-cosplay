@@ -4,7 +4,7 @@ include 'views/header.php';
 $products = new Products();
 $product = $products->getProductById($_GET['product_id']);
 if ($product == false) echo '<script>location.replace("products.html");</script>';
-$product_price = number_format($product['product_price'], 0, ',', '.');
+$product_rental_price = number_format($product['product_rental_price'], 0, ',', '.');
 $product_imgs = explode('|', $product['product_img']);
 // var_dump($product_imgs);
 // $product_img = $product_imgs[0];
@@ -91,7 +91,7 @@ $product_imgs = explode('|', $product['product_img']);
                             </ul>
                         </div> -->
 						<div class="price_box">
-							<span class="current_price"><?php echo $product_price; ?>đ</span>
+							<span class="current_price"><?php echo $product_rental_price; ?>đ</span>
 							<!-- <span class="old_price">$80.00</span> -->
 						</div>
 						<!-- <div class="product_desc">
@@ -304,27 +304,30 @@ $product_imgs = explode('|', $product['product_img']);
 				<?php
 				$products = new Products();
 				// $products->getProducts();
-				foreach ($products->getProductsByProductTypeId($product['product_type_id'], 1, 8) as $k => $v) {
-					$product_price = number_format($v['product_price'], 0, ',', '.');
+				foreach ($products->getProductsByProductTypeId($product['product_type_id'], 1, 1, 8) as $k => $v) {
+					$product_id = $v['product_id'];
+					$product_rental_price = number_format($v['product_rental_price'], 0, ',', '.');
 					$product_img = explode('|', $v['product_img'])[0];
 					echo '<div class="col-lg-3">
 							<article class="single_product">
 								<figure>
 									<div class="product_thumb">
-										<a class="primary_img" href="product-details.html"><img src="' . $product_img . '" alt=""></a>
+										<!--<a class="primary_img" href="product-details.html"><img src="' . $product_img . '" alt=""></a>-->
+										<a class="primary_img" href="product-details.html?product_id=' . $product_id . '">
+											<div style="width: 100%; background-image: url(\'' . $product_img . '\'); background-size: contain; background-repeat: no-repeat; padding-top: 100%;"></div>
+										</a>
 										<div class="action_links">
 											<ul>
-											<li class="add_to_cart"><a href="javascript:" onclick="add_to_cart(' . $v['product_id'] . ');" title="Thêm vào giỏ hàng"><i class="zmdi zmdi-shopping-cart"></i></a></li>
-											<!--<li class="wishlist"><a href="wishlist.html" title="Add to Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a></li>
-												<li class="compare"><a href="#" title="Add to Compare"><i class="zmdi zmdi-shuffle"></i></a></li>-->
-												<li class="quick_button"><a href="#" data-bs-toggle="modal" data-bs-target="#modal_box" title="Xem thông tin"> <i class="zmdi zmdi-eye"></i></a></li>
+												<li class="add_to_cart"><a href="javascript:" onclick="add_to_cart(' . $product_id . ');" title="Thêm vào giỏ hàng"><i class="zmdi zmdi-shopping-cart"></i></a></li>
+												<!--<li class="quick_button"><a href="#" data-bs-toggle="modal" data-bs-target="#modal_box" title="Xem thông tin"> <i class="zmdi zmdi-eye"></i></a></li>-->
+												<li class="quick_button"><a href="product-details.html?product_id=' . $product_id . '" title="Xem thông tin"> <i class="zmdi zmdi-eye"></i></a></li>
 											</ul>
 										</div>
 									</div>
 									<figcaption class="product_content">
-										<h4 class="product_name"><a href="product-details.html">' . $v['product_name'] . '</a></h4>
+										<h4 class="product_name"><a href="product-details.html?product_id=' . $product_id . '">' . $v['product_name'] . '</a></h4>
 										<div class="price_box">
-											<span class="current_price">' . $product_price . 'đ</span>
+											<span class="current_price">' . $product_rental_price . 'đ</span>
 										</div>
 										<div class="product_rating">
 											<ul>

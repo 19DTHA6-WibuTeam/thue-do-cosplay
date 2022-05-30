@@ -1,5 +1,5 @@
 <!--brand area start-->
-<div class="brand_area">
+<!-- <div class="brand_area">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
@@ -29,9 +29,8 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 <!--brand area end-->
-
 
 <!--footer area start-->
 <footer class="footer_widgets">
@@ -58,8 +57,8 @@
 						<div class="footer_menu">
 							<ul>
 								<li><a href="about.html">About Us</a></li>
-								<li><a href="products.html">New products</a></li>
-								<li><a href="my-account.html">My Account</a></li>
+								<li><a href="products.html">Sản phẩm mới</a></li>
+								<li><a href="my-account.html">Tài khoản</a></li>
 							</ul>
 						</div>
 					</div>
@@ -613,7 +612,7 @@
 				// console.log(result);
 				// result = JSON.parse(result);
 				if (result.success) $.notify("Đã thêm vào giỏ hàng!", "success");
-				else $.notify("Không thể thêm vào giỏ hàng!", "error");
+				else $.notify("<?php echo isset($_SESSION['user_id']) == true ? 'Không thể thêm vào giỏ hàng!' : 'Vui lòng đăng nhập để thêm vào giỏ hàng!'; ?>", "error");
 			}
 		});
 	}

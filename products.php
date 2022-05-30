@@ -6,8 +6,12 @@ if ($page < 1 || $page == '' || !is_numeric($page)) $page = 1;
 
 $products = new Products();
 if (!empty(getGET('keyword'))) {
-	$listProducts = $products->search(getGET('keyword'));
+	$listProducts = $products->search(getGET('keyword'),$order_by = 1, $page);
 	$total = $products->getCountSearch(getGET('keyword'));
+}
+if (!empty(getGET('product_type_id'))) {
+	$listProducts = $products->getProductsByProductTypeId(getGET('product_type_id'), getGET('order_by'), $page);
+	$total = $products->getCountProductsByProductTypeId(getGET('product_type_id'));
 } else {
 	$listProducts = $products->getProducts(getGET('order_by'), $page);
 	$total = $products->getCount();
@@ -139,9 +143,8 @@ if (!empty(getGET('keyword'))) {
 										<div class="action_links">
 											<ul>
 												<li class="add_to_cart"><a href="javascript:" onclick="add_to_cart(' . $v['product_id'] . ');" title="Thêm vào giỏ hàng"><i class="zmdi zmdi-shopping-cart"></i></a></li>
-												<!--<li class="wishlist"><a href="wishlist.html" title="Add to Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a></li>
-												<li class="compare"><a href="#" title="Add to Compare"><i class="zmdi zmdi-shuffle"></i></a></li>-->
-												<li class="quick_button"><a href="product-details.html?product_id=' . $product_id . '" data-bs-toggle="modal" data-bs-target="#modal_box" title="Xem thông tin"> <i class="zmdi zmdi-eye"></i></a></li>
+												<!--<li class="quick_button"><a href="product-details.html?product_id=' . $product_id . '" data-bs-toggle="modal" data-bs-target="#modal_box" title="Xem thông tin"> <i class="zmdi zmdi-eye"></i></a></li>-->
+												<li class="quick_button"><a href="product-details.html?product_id=' . $product_id . '" title="Xem thông tin"> <i class="zmdi zmdi-eye"></i></a></li>
 											</ul>
 										</div>
 									</div>

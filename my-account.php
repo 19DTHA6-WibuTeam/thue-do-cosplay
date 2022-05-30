@@ -49,7 +49,7 @@ $user_bank_name = $user['user_bank_name'];
 					<!-- Nav tabs -->
 					<div class="dashboard_tab_button">
 						<ul role="tablist" class="nav flex-column dashboard-list">
-							<li><a href="#dashboard" data-bs-toggle="tab" class="nav-link active">Dashboard</a></li>
+							<li><a href="#dashboard" data-bs-toggle="tab" class="nav-link active">Tổng quan</a></li>
 							<li> <a href="#orders" data-bs-toggle="tab" class="nav-link">Đơn hàng</a></li>
 							<!-- <li><a href="#downloads" data-bs-toggle="tab" class="nav-link">Downloads</a></li> -->
 							<!-- <li><a href="#address" data-bs-toggle="tab" class="nav-link">Địa chỉ</a></li> -->
@@ -62,8 +62,8 @@ $user_bank_name = $user['user_bank_name'];
 					<!-- Tab panes -->
 					<div class="tab-content dashboard_content">
 						<div class="tab-pane fade show active" id="dashboard">
-							<h3>Dashboard </h3>
-							<p>From your account dashboard. you can easily check &amp; view your <a href="#">recent orders</a>, manage your <a href="#">shipping and billing addresses</a> and <a href="#">Edit your password and account details.</a></p>
+							<h3>Thông tin </h3>
+							<p>Tại đây, bạn có thể kiểm tra lịch sử mua hàng & chỉnh sửa thông tin tài khoản.</a></p>
 						</div>
 						<div class="tab-pane fade" id="orders">
 							<h3>Đơn hàng</h3>
