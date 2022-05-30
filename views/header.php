@@ -176,10 +176,6 @@ if (strpos(strtolower($_SERVER['REQUEST_URI']), 'checkout.')) {
 							<div class="header_social text-right">
 								<ul>
 									<li><a href="javascript:void();"><i class="fa fa-facebook-f"></i></a></li>
-									<li><a href="javascript:void();"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-									<li><a href="javascript:void();"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-									<li><a href="javascript:void();"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-									<li><a href="javascript:void();"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
 								</ul>
 							</div>
 						</div>
