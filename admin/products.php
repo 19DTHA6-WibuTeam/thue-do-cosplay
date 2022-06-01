@@ -3,6 +3,20 @@ include 'views/header.php';
 
 $page = $_GET['page'];
 if ($page < 1 || $page == '' || !is_numeric($page)) $page = 1;
+
+$products = new Products();
+if (!empty(getGET('keyword'))) {
+	$listProducts = $products->search(getGET('keyword'), 1, $page);
+	$total = $products->getCountSearch(getGET('keyword'));
+} else {
+	if (!empty(getGET('product_type_id'))) {
+		$listProducts = $products->getProductsByProductTypeId(getGET('product_type_id'), 1, $page);
+		$total = $products->getCountProductsByProductTypeId(getGET('product_type_id'));
+	} else {
+		$listProducts = $products->getProducts(1, $page);
+		$total = $products->getCount();
+	}
+}
 ?>
 <!-- BEGIN: Page Main-->
 <div id="main">
@@ -26,11 +40,73 @@ if ($page < 1 || $page == '' || !is_numeric($page)) $page = 1;
 		<div class="col s12">
 			<div class="container">
 				<div class="section">
+					<div class="row">
+						<div class="col s12">
+							<div id="input-fields" class="card card-tabs">
+								<div class="card-content">
+									<div class="card-title">
+										<div class="row">
+											<div class="col s12 m6 l10">
+												<h4 class="card-title">Lọc sản phẩm</h4>
+											</div>
+											<!-- <div class="col s12 m6 l2">
+												<ul class="tabs">
+													<li class="tab col s6 p-0"><a class="active p-0" href="#view-input-fields">View</a></li>
+													<li class="tab col s6 p-0"><a class="p-0" href="#html-input-fields">Html</a></li>
+												</ul>
+											</div> -->
+										</div>
+									</div>
+									<div class="row">
+										<div class="col s12">
+											<p>Tìm kiếm nhanh sản phẩm theo tên hoặc loại sản phẩm.</p>
+											<br>
+											<form class="row" method="get" action="">
+												<div class="col s4">
+													<div class="input-field col s12">
+														<input placeholder="keyword" id="keyword" type="text" class="validate" name="keyword" />
+														<label for="keyword">Tên sản phẩm</label>
+													</div>
+												</div>
+												<div class="col s4">
+													<div class="input-field col s12">
+														<select class="select2 browser-default" name="product_type_id" id="product_type_id">
+															<option value="0" selected>Tất cả</option>
+															<?php
+															$productTypes = new ProductTypes();
+															$listProductTypes = '';
+															foreach ($productTypes->getProductTypes() as $k => $v) {
+																$listProductTypes .= '<option value="' . $v['product_type_id'] . '">' . $v['product_type_name'] . '</option>';
+															}
+															echo $listProductTypes;
+															?>
+														</select>
+													</div>
+												</div>
+												<div class="col s4">
+													<div class="col s12">
+														<button class="btn cyan waves-effect waves-light right" type="submit" name="action">Tìm kiếm <i class="material-icons right">send</i></button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="content-overlay"></div>
+		</div>
+		<div class="col s12">
+			<div class="container">
+				<div class="section">
 					<div class="row" id="ecommerce-products">
 						<div class="col s12 m12 l12 pr-0">
 							<?php
-							$products = new Products();
-							foreach ($products->getProducts($page) as $k => $v) {
+							// $products = new Products();
+							foreach ($listProducts as $k => $v) {
 								$product_price = number_format($v['product_price'], 0, ',', '.');
 								$product_rental_price = number_format($v['product_rental_price'], 0, ',', '.');
 								$product_img = explode('|', $v['product_img'])[0];
@@ -84,7 +160,7 @@ if ($page < 1 || $page == '' || !is_numeric($page)) $page = 1;
 							<div class="col s12 center">
 								<ul class="pagination">
 									<?php
-									$total = $products->getCount();
+									// $total = $products->getCount();
 									$limit = (($page - 1) * DATA_PER_PAGE) . ',' . DATA_PER_PAGE;
 									$end_page =  ceil($total / DATA_PER_PAGE);
 									$page_item = [];

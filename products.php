@@ -6,15 +6,16 @@ if ($page < 1 || $page == '' || !is_numeric($page)) $page = 1;
 
 $products = new Products();
 if (!empty(getGET('keyword'))) {
-	$listProducts = $products->search(getGET('keyword'),$order_by = 1, $page);
+	$listProducts = $products->search(getGET('keyword'), getGET('order_by'), $page);
 	$total = $products->getCountSearch(getGET('keyword'));
-}
-if (!empty(getGET('product_type_id'))) {
-	$listProducts = $products->getProductsByProductTypeId(getGET('product_type_id'), getGET('order_by'), $page);
-	$total = $products->getCountProductsByProductTypeId(getGET('product_type_id'));
 } else {
-	$listProducts = $products->getProducts(getGET('order_by'), $page);
-	$total = $products->getCount();
+	if (!empty(getGET('product_type_id'))) {
+		$listProducts = $products->getProductsByProductTypeId(getGET('product_type_id'), getGET('order_by'), $page);
+		$total = $products->getCountProductsByProductTypeId(getGET('product_type_id'));
+	} else {
+		$listProducts = $products->getProducts(getGET('order_by'), $page);
+		$total = $products->getCount();
+	}
 }
 ?>
 <!--breadcrumbs area start-->
@@ -59,7 +60,6 @@ if (!empty(getGET('product_type_id'))) {
 									echo '<option value="' . ($i + 1) . '"' . ($i + 1 == $_GET['order_by'] ? ' selected' : '') . '>' . $od . '</option>';
 								}
 								?>
-
 							</select>
 						</form>
 					</div>
@@ -152,7 +152,7 @@ if (!empty(getGET('product_type_id'))) {
 										<h4 class="product_name"><a href="product-details.html?product_id=' . $product_id . '" style="display: block; white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;">' . $v['product_name'] . '</a></h4>
 										<div class="price_box">
 											<!--<span class="old_price">$420.00</span>-->
-											<span class="current_price">' . number_format($v['product_rental_price'], 0, ',', '.') . 'đ</span>
+											<span class="current_price">' . formatPrice($v['product_rental_price']) . 'đ</span>
 										</div>
 									</div>
 								</figure>

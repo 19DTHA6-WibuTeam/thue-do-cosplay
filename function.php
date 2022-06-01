@@ -103,16 +103,7 @@ function getREQUEST($key)
 	return $value;
 }
 
-function orderStatus($s)
+function formatPrice($price)
 {
-	switch ($s) {
-		case 0:
-			return 'Đã huỷ';
-		case 1:
-			return 'Đang chờ thanh toán';
-		case 2:
-			return 'Đã thanh toán';
-		default:
-			return '';
-	}
+	return number_format($price, 0, ',', '.');
 }

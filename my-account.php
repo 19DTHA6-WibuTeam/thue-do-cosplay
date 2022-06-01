@@ -95,12 +95,12 @@ $user_bank_name = $user['user_bank_name'];
 										</tr> -->
 										<?php
 										$invoices = new Invoice;
-										foreach ($invoices->getInvoicesByUserId($_SESSION['user_id']) as $k => $v) {
+										foreach ($invoices->getInvoicesByUserId($_SESSION['user_id'], 0, 0) as $k => $v) {
 											echo '<tr>
 													<td>' . $v['invoice_id'] . '</td>
 													<td>' . date("Y-m-d", $v['invoice_created_at']) . '</td>
-													<td>' . orderStatus($v['invoice_status']) . '</td>
-													<td>' . number_format(($v['invoice_subtotal'] + $v['invoice_fee_transport'] + $v['invoice_fee_bond']), 0, ',', '.') . 'đ</td>
+													<td>' . $v['invoice_status_name'] . '</td>
+													<td>' . formatPrice($v['invoice_subtotal'] + $v['invoice_fee_transport'] + $v['invoice_fee_bond']) . 'đ</td>
 													<td><a href="invoice.html?invoice_id=' . $v['invoice_id'] . '" class="view">Xem chi tiết</a></td>
 												</tr>';
 										}
@@ -108,47 +108,6 @@ $user_bank_name = $user['user_bank_name'];
 									</tbody>
 								</table>
 							</div>
-						</div>
-						<div class="tab-pane fade" id="downloads">
-							<h3>Downloads</h3>
-							<div class="table-responsive">
-								<table class="table">
-									<thead>
-										<tr>
-											<th>Product</th>
-											<th>Downloads</th>
-											<th>Expires</th>
-											<th>Download</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Shopnovilla - Free Real Estate PSD Template</td>
-											<td>May 10, 2018</td>
-											<td><span class="danger">Expired</span></td>
-											<td><a href="#" class="view">Click Here To Download Your File</a></td>
-										</tr>
-										<tr>
-											<td>Organic - ecommerce html template</td>
-											<td>Sep 11, 2018</td>
-											<td>Never</td>
-											<td><a href="#" class="view">Click Here To Download Your File</a></td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<div class="tab-pane" id="address">
-							<p>The following addresses will be used on the checkout page by default.</p>
-							<h4 class="billing-address">Billing address</h4>
-							<a href="#" class="view">Edit</a>
-							<p><strong>Bobby Jackson</strong></p>
-							<address>
-								755 Rosewood Court<br>
-								SILVER SPRING <br>
-								MD
-							</address>
-							<p>Maryland</p>
 						</div>
 						<div class="tab-pane fade" id="account-details">
 							<h3>Chi tiết tài khoản</h3>

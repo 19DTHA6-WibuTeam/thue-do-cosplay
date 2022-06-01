@@ -228,6 +228,8 @@ class DB
 	}
 	public function Offset($page = 1, $limit = DATA_PER_PAGE)
 	{
+		$limit = mysqli_escape_string($this->conn, $limit);
+		if ($limit == 0) return '';
 		$page = mysqli_escape_string($this->conn, $page);
 		if ($page < 1 || !is_numeric($page)) $page = 1;
 		$offset = ' LIMIT ' . (($page - 1) *  $limit) . ',' .  $limit;
@@ -361,7 +363,7 @@ class ProductTypes extends DB
 {
 	public function getProductTypes()
 	{
-		$a = mysqli_query($this->conn, "SELECT PT.product_type_id, product_type_name, COUNT(PT.product_type_id) AS product_type_quantity FROM product_types PT LEFT JOIN products P ON PT.product_type_id = P.product_type_id GROUP BY PT.product_type_id");
+		$a = mysqli_query($this->conn, "SELECT PT.product_type_id, product_type_name, COUNT(P.product_type_id) AS product_type_quantity FROM product_types PT LEFT JOIN products P ON PT.product_type_id = P.product_type_id GROUP BY PT.product_type_id");
 		$b = array();
 		if (mysqli_num_rows($a))
 			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
@@ -561,8 +563,39 @@ class Cart extends DB
 		else return false;
 	}
 }
+class InvoiceStatus extends DB
+{
+	public function getInvoiceStatus()
+	{
+		$a = mysqli_query($this->conn, "SELECT IST.invoice_status_id, invoice_status_name, COUNT(I.invoice_status_id) AS invoice_status_quantity FROM invoice_status IST LEFT JOIN invoices I ON IST.invoice_status_id = I.invoice_status_id GROUP BY IST.invoice_status_id");
+		$b = array();
+		if (mysqli_num_rows($a))
+			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
+		mysqli_free_result($a);
+		return $b;
+	}
+}
 class Invoice extends DB
 {
+	private $invoiceWithInvoiceStatus = 'SELECT invoice_id, invoice_user_fullname, invoice_user_phone_number, invoice_user_email, invoice_subtotal, invoice_fee_transport, invoice_fee_bond, IST.*, invoice_num_rental_days, invoice_created_at FROM invoices I LEFT JOIN invoice_status IST ON I.invoice_status_id = IST.invoice_status_id';
+	public function getCountInvoicesByInvoiceStatusId($invoice_status_id)
+	{
+		$invoice_status_id = mysqli_escape_string($this->conn, $invoice_status_id);
+		$total = mysqli_query($this->conn, "SELECT COUNT(invoice_id) AS total FROM invoices WHERE invoice_status_id = '$invoice_status_id'");
+		$total = mysqli_fetch_assoc($total)['total'];
+		return $total;
+	}
+	public function getInvoicesByInvoiceStatusId($invoice_status_id, $page = 1, $limit = DATA_PER_PAGE)
+	{
+		$invoice_status_id = mysqli_escape_string($this->conn, $invoice_status_id);
+		$offset = $this->Offset($page, $limit);
+		$a = mysqli_query($this->conn, $this->invoiceWithInvoiceStatus . " WHERE I.invoice_status_id = '$invoice_status_id' ORDER BY invoice_id DESC " . $offset);
+		$b = array();
+		if (mysqli_num_rows($a))
+			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
+		mysqli_free_result($a);
+		return $b;
+	}
 	public function getCount()
 	{
 		$total = mysqli_query($this->conn, "SELECT COUNT(invoice_id) AS total FROM invoices");
@@ -572,7 +605,7 @@ class Invoice extends DB
 	public function getInvoices($page = 1, $limit = DATA_PER_PAGE)
 	{
 		$offset = $this->Offset($page, $limit);
-		$a = mysqli_query($this->conn, "SELECT invoice_id, invoice_user_fullname, invoice_user_phone_number, invoice_user_email, invoice_subtotal, invoice_fee_transport, invoice_fee_bond, invoice_status, invoice_created_at FROM invoices ORDER BY invoice_id DESC " . $offset);
+		$a = mysqli_query($this->conn, $this->invoiceWithInvoiceStatus . " ORDER BY invoice_id DESC " . $offset);
 		$b = array();
 		if (mysqli_num_rows($a))
 			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
@@ -582,7 +615,7 @@ class Invoice extends DB
 	public function getInvoice($invoice_id)
 	{
 		$invoice_id = mysqli_escape_string($this->conn, $invoice_id);
-		$a = mysqli_query($this->conn, "SELECT * FROM invoices WHERE `invoice_id` = '$invoice_id'");
+		$a = mysqli_query($this->conn, "SELECT I.*, IST.invoice_status_name FROM invoices I LEFT JOIN invoice_status IST ON I.invoice_status_id = IST.invoice_status_id WHERE `invoice_id` = '$invoice_id'");
 		if (mysqli_num_rows($a))
 			while ($row = mysqli_fetch_assoc($a)) $b = $row;
 		else $b = false;
@@ -593,8 +626,7 @@ class Invoice extends DB
 	{
 		$user_id = mysqli_escape_string($this->conn, $user_id);
 		$offset = $this->Offset($page, $limit);
-		$a = mysqli_query($this->conn, "SELECT invoice_id, invoice_user_fullname, invoice_user_phone_number, invoice_user_email, invoice_subtotal, invoice_fee_transport, invoice_fee_bond, invoice_status, invoice_created_at FROM invoices WHERE user_id = '$user_id' ORDER BY invoice_id DESC " . $offset);
-		// $a = mysqli_query($this->conn, "SELECT * FROM invoices WHERE `user_id` = '$user_id' ORDER BY invoice_id DESC");
+		$a = mysqli_query($this->conn, $this->invoiceWithInvoiceStatus . " WHERE user_id = '$user_id' ORDER BY invoice_id DESC " . $offset);
 		$b = array();
 		if (mysqli_num_rows($a))
 			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
@@ -611,7 +643,7 @@ class Invoice extends DB
 		mysqli_free_result($a);
 		return $b;
 	}
-	public function postInvoice($user_id, $invoice_user_fullname, $invoice_user_phone_number, $invoice_user_email, $invoice_user_address, $invoice_note)
+	public function postInvoice($user_id, $invoice_user_fullname, $invoice_user_phone_number, $invoice_user_email, $invoice_user_address, $invoice_num_rental_days, $invoice_note)
 	{
 		$cart_subtotal = 0;
 		$cart_weight = 0;
@@ -635,11 +667,12 @@ class Invoice extends DB
 		$invoice_user_phone_number = mysqli_escape_string($this->conn, $invoice_user_phone_number);
 		$invoice_user_email = mysqli_escape_string($this->conn, $invoice_user_email);
 		$invoice_user_address = mysqli_escape_string($this->conn, $invoice_user_address);
+		$invoice_num_rental_days = mysqli_escape_string($this->conn, $invoice_num_rental_days);
 		$invoice_note = mysqli_escape_string($this->conn, $invoice_note);
 
 		$invoice_created_at = time();
-		$a = mysqli_query($this->conn, "INSERT INTO invoices (user_id, invoice_user_fullname, invoice_user_phone_number, invoice_user_email, invoice_user_address, invoice_note, invoice_subtotal, invoice_fee_transport, invoice_fee_bond, invoice_created_at)
-												VALUES ('$user_id', '$invoice_user_fullname', '$invoice_user_phone_number', '$invoice_user_email', '$invoice_user_address', '$invoice_note', '$cart_subtotal', '$fee_transport', '$fee_bond', '$invoice_created_at')");
+		$a = mysqli_query($this->conn, "INSERT INTO invoices (user_id, invoice_user_fullname, invoice_user_phone_number, invoice_user_email, invoice_user_address, invoice_num_rental_days, invoice_note, invoice_subtotal, invoice_fee_transport, invoice_fee_bond, invoice_created_at)
+												VALUES ('$user_id', '$invoice_user_fullname', '$invoice_user_phone_number', '$invoice_user_email', '$invoice_user_address', '$invoice_num_rental_days', '$invoice_note', '$cart_subtotal', '$fee_transport', '$fee_bond', '$invoice_created_at')");
 		if ($a) {
 			$invoice_id = mysqli_insert_id($this->conn);
 			foreach ($cart as $k => $v) {
@@ -680,46 +713,5 @@ class Fee
 		if ($price <= 1000000) $cost = 500000;
 		else $cost = 1000000 + $price * 35 / 100;
 		return $cost;
-	}
-}
-class API extends DB
-{
-	private $Users;
-	private $Products;
-	private $Carts;
-
-	function __construct()
-	{
-		$this->Users = new User;
-		$this->Products = new Products;
-		$this->Carts = new Cart;
-	}
-	public function login($email, $password)
-	{
-		return $this->Users->login($email, $password);
-	}
-	public function getToken($user)
-	{
-		return $this->Users->Token($user);
-	}
-	public function parseToken($user_token)
-	{
-		return $this->Users->parseToken($user_token);
-	}
-	public function getProducts($page = 1, $limit = DATA_PER_PAGE)
-	{
-		return $this->Products->getProducts($page, $limit);
-	}
-	public function postCart($user_id, $product_id, $cart_product_quantity)
-	{
-		return $this->Carts->postCart($user_id, $product_id, $cart_product_quantity);
-	}
-	public function updateCart($user_id, $product_id, $cart_product_quantity)
-	{
-		return $this->Carts->updateCart($user_id, $product_id, $cart_product_quantity);
-	}
-	public function deleteCart($user_id, $product_id)
-	{
-		return $this->Carts->deleteCart($user_id, $product_id);
 	}
 }

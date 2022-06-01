@@ -4,7 +4,7 @@ include 'views/header.php';
 
 if (isset($_POST['submit'])) {
     $invoices = new Invoice;
-    if ($invoices->postInvoice($_SESSION['user_id'], $_POST['user_fullname'], $_POST['user_phone_number'], $_POST['user_email'], $_POST['user_address'], $_POST['order_note'])) {
+    if ($invoices->postInvoice($_SESSION['user_id'], $_POST['user_fullname'], $_POST['user_phone_number'], $_POST['user_email'], $_POST['user_address'], $_POST['invoice_num_rental_days'], $_POST['order_note'])) {
         echo '<script>location.replace("order-success.html");</script>';
     }
 }
@@ -83,7 +83,7 @@ $user = $users->getUser($_SESSION['user_id']);
             <div class="row">
                 <div class="col-lg-6 col-md-6">
                     <form method="POST" action="">
-                        <h3>Chi tiết đơn hàng</h3>
+                        <h3>Thông tin người nhận</h3>
                         <div class="row">
                             <div class="col-lg-12 mb-20">
                                 <label>Họ tên <span>*</span></label>
@@ -103,96 +103,21 @@ $user = $users->getUser($_SESSION['user_id']);
                                 </select>
                             </div> -->
                             <div class="col-lg-6 mb-20">
-                                <label>SĐT<span>*</span></label>
+                                <label>SĐT <span>*</span></label>
                                 <input type="text" name="user_phone_number" value="<?php echo $user['user_phone_number']; ?>" pattern="(84|0[3|5|7|8|9])+([0-9]{8})" required />
                             </div>
                             <div class="col-lg-6 mb-20">
                                 <label>Email <span>*</span></label>
                                 <input type="email" name="user_email" value="<?php echo $user['user_email']; ?>" required />
                             </div>
-                            <div class="col-12 mb-20">
+                            <div class="col-8 mb-20">
                                 <label>Địa chỉ giao hàng <span>*</span></label>
                                 <input type="text" name="user_address" placeholder="House number and street name" value="<?php echo $user['user_address']; ?>" required />
                             </div>
-                            <!-- <div class="col-12 mb-20">
-                                <input placeholder="Apartment, suite, unit etc. (optional)" type="text" />
-                            </div> -->
-                            <!-- <div class="col-12 mb-20">
-                                <label>Town / City <span>*</span></label>
-                                <input type="text" />
+                            <div class="col-4 mb-20">
+                                <label>Số ngày thuê tối đa <span>*</span></label>
+                                <input type="number" name="invoice_num_rental_days" value="3" min="3" max="10" required />
                             </div>
-                            <div class="col-12 mb-20">
-                                <label>State / County <span>*</span></label>
-                                <input type="text" />
-                            </div> -->
-                            <!-- <div class="col-12 mb-20">
-                                <input id="account" type="checkbox" data-bs-target="createp_account" />
-                                <label for="account" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-controls="collapseOne">Create an account?</label>
-                                <div id="collapseOne" class="collapse one" data-parent="#accordion">
-                                    <div class="card-body1">
-                                        <label> Account password <span>*</span></label>
-                                        <input placeholder="password" type="password" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 mb-20">
-                                <input id="address" type="checkbox" data-bs-target="createp_account" />
-                                <label class="righ_0" for="address" data-bs-toggle="collapse" data-bs-target="#collapsetwo" aria-controls="collapseOne">Ship to a different address?</label>
-                                <div id="collapsetwo" class="collapse one" data-parent="#accordion">
-                                    <div class="row">
-                                        <div class="col-lg-6 mb-20">
-                                            <label>First Name <span>*</span></label>
-                                            <input type="text">
-                                        </div>
-                                        <div class="col-lg-6 mb-20">
-                                            <label>Last Name <span>*</span></label>
-                                            <input type="text">
-                                        </div>
-                                        <div class="col-12 mb-20">
-                                            <label>Company Name</label>
-                                            <input type="text">
-                                        </div>
-                                        <div class="col-12 mb-20">
-                                            <div class="select_form_select">
-                                                <label for="countru_name">country <span>*</span></label>
-                                                <select class="niceselect_option" name="cuntry" id="countru_name">
-                                                    <option value="2">bangladesh</option>
-                                                    <option value="3">Algeria</option>
-                                                    <option value="4">Afghanistan</option>
-                                                    <option value="5">Ghana</option>
-                                                    <option value="6">Albania</option>
-                                                    <option value="7">Bahrain</option>
-                                                    <option value="8">Colombia</option>
-                                                    <option value="9">Dominican Republic</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 mb-20">
-                                            <label>Street address <span>*</span></label>
-                                            <input placeholder="House number and street name" type="text">
-                                        </div>
-                                        <div class="col-12 mb-20">
-                                            <input placeholder="Apartment, suite, unit etc. (optional)" type="text">
-                                        </div>
-                                        <div class="col-12 mb-20">
-                                            <label>Town / City <span>*</span></label>
-                                            <input type="text">
-                                        </div>
-                                        <div class="col-12 mb-20">
-                                            <label>State / County <span>*</span></label>
-                                            <input type="text">
-                                        </div>
-                                        <div class="col-lg-6 mb-20">
-                                            <label>Phone<span>*</span></label>
-                                            <input type="text">
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label> Email Address <span>*</span></label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
                             <div class="col-12">
                                 <div class="order-notes">
                                     <label for="order_note">Ghi chú đơn hàng</label>

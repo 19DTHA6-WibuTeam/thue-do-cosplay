@@ -27,6 +27,41 @@ if ($invoice == false)	header('Location: ./');
 <div class="shopping_cart_area mt-60">
 	<div class="container">
 		<form action="#">
+			<div class="checkout_form">
+				<div class="row">
+					<div class="col-lg-12 col-md-12">
+						<h3>Thông tin người nhận</h3>
+						<div class="row">
+							<div class="col-lg-4 mb-20">
+								<label>Họ tên</label>
+								<input type="text" name="user_fullname" value="<?php echo $invoice['invoice_user_fullname']; ?>" disabled />
+							</div>
+							<div class="col-lg-4 mb-20">
+								<label>SĐT</label>
+								<input type="text" name="user_phone_number" value="<?php echo $invoice['invoice_user_phone_number']; ?>" pattern="(84|0[3|5|7|8|9])+([0-9]{8})" disabled />
+							</div>
+							<div class="col-lg-4 mb-20">
+								<label>Email</label>
+								<input type="email" name="user_email" value="<?php echo $invoice['invoice_user_email']; ?>" disabled />
+							</div>
+							<div class="col-8 mb-20">
+								<label>Địa chỉ giao hàng</label>
+								<input type="text" name="user_address" value="<?php echo $invoice['invoice_user_address']; ?>" disabled />
+							</div>
+							<div class="col-4 mb-20">
+								<label>Số ngày thuê tối đa</label>
+								<input type="number" name="invoice_num_rental_days" value="<?php echo $invoice['invoice_num_rental_days']; ?>" min="3" max="10" disabled />
+							</div>
+							<div class="col-12">
+								<div class="order-notes">
+									<label for="order_note">Ghi chú đơn hàng</label>
+									<textarea id="order_note" name="order_note" style="height: 100px;" disabled><?php echo $invoice['invoice_note']; ?></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-12">
 					<div class="table_desc">
@@ -65,7 +100,7 @@ if ($invoice == false)	header('Location: ./');
 			<div class="coupon_area">
 				<div class="row">
 					<div class="col-lg-6 col-md-6">
-						<?php if ($invoice['invoice_status']) { ?>
+						<?php if ($invoice['invoice_status_id'] == 2) { ?>
 							<div class="coupon_code left">
 								<h3>CÁCH THANH TOÁN</h3>
 								<div class="coupon_inner">
@@ -121,7 +156,7 @@ if ($invoice == false)	header('Location: ./');
 								</div>
 								<div class="cart_subtotal">
 									<p>Trạng thái đơn hàng</p>
-									<p class="cart_amount"><?php echo orderStatus($invoice['invoice_status']); ?></p>
+									<p class="cart_amount"><?php echo $invoice['invoice_status_name']; ?></p>
 								</div>
 							</div>
 						</div>

@@ -64,7 +64,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 
 $res['success'] = false;
-// $api = new API;
+
 $users = new User;
 $products = new Products;
 $product_types = new ProductTypes;
@@ -129,7 +129,7 @@ switch (strtolower(getREQUEST('action'))) {
 		$res['data'] = $invoices->getInvoicesByUserId(getREQUEST('user_id'), getREQUEST('page'), getREQUEST('limit'));
 		break;
 	case 'post_invoice':
-		$res['success'] = $invoices->postInvoice(getREQUEST('user_id'), getREQUEST('user_fullname'), getREQUEST('user_phone_number'), getREQUEST('user_email'), getREQUEST('user_address'), getREQUEST('order_note'));
+		$res['success'] = $invoices->postInvoice(getREQUEST('user_id'), getREQUEST('user_fullname'), getREQUEST('user_phone_number'), getREQUEST('user_email'), getREQUEST('user_address'), getREQUEST('num_rental_days'), getREQUEST('order_note'));
 		break;
 	case 'get_invoice_details':
 		$res['success'] = true;
