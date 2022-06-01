@@ -687,11 +687,11 @@ class Invoice extends DB
 			return true;
 		} else return false;
 	}
-	public function updateStatus($invoice_id, $invoice_status)
+	public function updateStatus($invoice_id, $invoice_status_id)
 	{
 		$invoice_id = mysqli_escape_string($this->conn, $invoice_id);
-		$invoice_status = mysqli_escape_string($this->conn, $invoice_status);
-		mysqli_query($this->conn, "UPDATE invoices SET invoice_status = '$invoice_status' WHERE invoice_id = $invoice_id");
+		$invoice_status_id = mysqli_escape_string($this->conn, $invoice_status_id);
+		mysqli_query($this->conn, "UPDATE invoices SET invoice_status_id = '$invoice_status_id' WHERE invoice_id = $invoice_id");
 	}
 }
 class Fee

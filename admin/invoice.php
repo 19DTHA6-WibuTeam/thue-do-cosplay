@@ -6,11 +6,14 @@ $invoice = $invoices->getInvoice($_GET['invoice_id']);
 
 if (isset($_POST['submit'])) {
 	switch ($_POST['submit']) {
-		case 'change_status':
-			$invoices->updateStatus($invoice['invoice_id'], ($invoice['invoice_status'] == 1 ? 2 : 1));
+		case 'change_status_1':
+			$invoices->updateStatus($invoice['invoice_id'], ($invoice['invoice_status_id'] == 2 ? 3 : 2));
+			break;
+		case 'change_status_2':
+			$invoices->updateStatus($invoice['invoice_id'], ($invoice['invoice_status_id'] == 3 ? 4 : 3));
 			break;
 		case 'cancel_invoice':
-			$invoices->updateStatus($invoice['invoice_id'], 0);
+			$invoices->updateStatus($invoice['invoice_id'], 1);
 			break;
 	}
 	echo '<script>alert("Cập nhật đơn thành công!");</script>';
@@ -52,7 +55,7 @@ if (isset($_POST['submit'])) {
 									<!-- logo and title -->
 									<div class="row mt-3 invoice-logo-title">
 										<div class="col m6 s12 display-flex invoice-logo mt-1 push-m6">
-											<img src="./app-assets/images/gallery/pixinvent-logo.png" alt="logo" height="46" width="164">
+											<!-- <img src="./app-assets/images/gallery/pixinvent-logo.png" alt="logo" height="46" width="164"> -->
 										</div>
 										<div class="col m6 s12 pull-m6">
 											<h4 class="indigo-text">HOÁ ĐƠN</h4>
@@ -182,12 +185,6 @@ if (isset($_POST['submit'])) {
 							<div class="card invoice-action-wrapper">
 								<div class="card-content">
 									<form method="POST" action="">
-										<!-- <div class="invoice-action-btn">
-										<a href="#" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
-											<i class="material-icons mr-4">check</i>
-											<span class="text-nowrap">Send Invoice</span>
-										</a>
-									</div> -->
 										<div class="invoice-action-btn">
 											<a href="javascript:void();" class="btn-block btn btn-light-indigo waves-effect waves-light invoice-print">
 												<span>In đơn</span>
@@ -205,15 +202,29 @@ if (isset($_POST['submit'])) {
 										</a>
 									</div> -->
 										<?php
-										$invoice_status = $invoice['invoice_status'];
-										if ($invoice_status) {
+										$invoice_status_id = $invoice['invoice_status_id'];
+										if ($invoice_status_id >= 2 && $invoice_status_id <= 3) {
 										?>
 											<div class="invoice-action-btn">
-												<button class="btn waves-effect waves-light display-flex align-items-center justify-content-center" style="width: 100%;" type="submit" name="submit" value="change_status">
+												<button class="btn waves-effect waves-light display-flex align-items-center justify-content-center" style="width: 100%;" type="submit" name="submit" value="change_status_1">
 													<i class="material-icons mr-3">attach_money</i>
-													<span class="text-nowrap">Đánh dấu là <?php echo $invoice_status == 1 ? 'ĐÃ' : 'CHƯA'; ?> thanh toán</span>
+													<span class="text-nowrap">Đánh dấu là <?php echo $invoice_status_id == 2 ? 'ĐÃ' : 'CHƯA'; ?> thanh toán</span>
 												</button>
 											</div>
+										<?php
+										}
+										if ($invoice_status_id >= 3 && $invoice_status_id <= 4) {
+										?>
+											<div class="invoice-action-btn">
+												<button class="btn waves-effect waves-light display-flex align-items-center justify-content-center" style="width: 100%;" type="submit" name="submit" value="change_status_2">
+													<i class="material-icons mr-3">attach_money</i>
+													<span class="text-nowrap">Đánh dấu là <?php echo $invoice_status_id == 3 ? 'ĐÃ' : 'CHƯA'; ?> trả hàng</span>
+												</button>
+											</div>
+										<?php
+										}
+										if ($invoice_status_id != 1) {
+										?>
 											<div class="invoice-action-btn">
 												<button class="btn-block btn btn-light-indigo waves-effect waves-light" style="width: 100%;" type="submit" name="submit" value="cancel_invoice">
 													<span>Huỷ đơn hàng</span>
