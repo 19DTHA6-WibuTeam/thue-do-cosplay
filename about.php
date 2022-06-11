@@ -26,7 +26,7 @@ include 'views/header.php';
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
 					<div class="about_thumb">
-						<img src="assets/img/about/about1.webp" alt="">
+						<img src="assets/img/about/about1.png" alt="">
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-12">

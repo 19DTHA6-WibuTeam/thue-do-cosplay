@@ -239,6 +239,12 @@ class DB
 class User extends DB
 {
 	// $this->conn = $conn;
+	public function getCount()
+	{
+		$total = mysqli_query($this->conn, "SELECT COUNT(user_id) AS total FROM users");
+		$total = mysqli_fetch_assoc($total)['total'];
+		return $total;
+	}
 	public function validUser($username)
 	{
 		$username = mysqli_escape_string($this->conn, $username);
@@ -491,7 +497,7 @@ class Products extends DB
 		$keyword = mysqli_escape_string($this->conn, $keyword);
 		$order_by = $this->orderBy($order_by);
 		$offset = $this->Offset($page, $limit);
-		$a = mysqli_query($this->conn, $this->productWithProductType . " WHERE MATCH(product_name) AGAINST ('$keyword') ORDER BY $order_by " . $offset);
+		$a = mysqli_query($this->conn, $this->productWithProductType . " WHERE MATCH(product_name) AGAINST ('$keyword') OR product_name LIKE ('%$keyword%') ORDER BY $order_by " . $offset);
 		$b = array();
 		if (mysqli_num_rows($a))
 			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
@@ -502,7 +508,7 @@ class Products extends DB
 	public function getCountSearch($keyword)
 	{
 		$keyword = mysqli_escape_string($this->conn, $keyword);
-		$total = mysqli_query($this->conn, "SELECT COUNT(product_id) AS total FROM products WHERE MATCH(product_name) AGAINST ('$keyword')");
+		$total = mysqli_query($this->conn, "SELECT COUNT(product_id) AS total FROM products WHERE MATCH(product_name) AGAINST ('$keyword') OR product_name LIKE ('%$keyword%')");
 		$total = mysqli_fetch_assoc($total)['total'];
 		return $total;
 	}
@@ -713,5 +719,34 @@ class Fee
 		if ($price <= 1000000) $cost = 500000;
 		else $cost = 1000000 + $price * 35 / 100;
 		return $cost;
+	}
+}
+class Statistic extends DB
+{
+	public function totalUsers()
+	{
+		$a = new User();
+		return $a->getCount();
+	}
+	public function totalProducts()
+	{
+		$a = new Products();
+		return $a->getCount();
+	}
+	public function totalInvoices()
+	{
+		$a = new Invoice();
+		return $a->getCount();
+	}
+	public function totalInvoicesByInvoiceStatusId($invoice_status_id)
+	{
+		$a = new Invoice();
+		return $a->getCountInvoicesByInvoiceStatusId($invoice_status_id);
+	}
+	public function totalRevenue()
+	{
+		$total = mysqli_query($this->conn, "SELECT (SUM(invoice_subtotal) + SUM(invoice_fee_transport) + SUM(invoice_fee_bond)) AS total FROM invoices WHERE invoice_status_id = 3 OR invoice_status_id = 4");
+		$total = mysqli_fetch_assoc($total)['total'];
+		return $total;
 	}
 }
