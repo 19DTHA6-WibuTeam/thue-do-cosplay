@@ -92,100 +92,6 @@ License: You must have a valid license purchased only from themeforest(the above
 		</div>
 	</header>
 	<!-- END: Header-->
-	<ul class="display-none" id="default-search-main">
-		<li class="auto-suggestion-title"><a class="collection-item" href="#">
-				<h6 class="search-title">FILES</h6>
-			</a></li>
-		<li class="auto-suggestion"><a class="collection-item" href="#">
-				<div class="display-flex">
-					<div class="display-flex align-item-center flex-grow-1">
-						<div class="avatar"><img src="./app-assets/images/icon/pdf-image.png" width="24" height="30" alt="sample image"></div>
-						<div class="member-info display-flex flex-column"><span class="black-text">Two new item
-								submitted</span><small class="grey-text">Marketing Manager</small></div>
-					</div>
-					<div class="status"><small class="grey-text">17kb</small></div>
-				</div>
-			</a></li>
-		<li class="auto-suggestion"><a class="collection-item" href="#">
-				<div class="display-flex">
-					<div class="display-flex align-item-center flex-grow-1">
-						<div class="avatar"><img src="./app-assets/images/icon/doc-image.png" width="24" height="30" alt="sample image"></div>
-						<div class="member-info display-flex flex-column"><span class="black-text">52 Doc file
-								Generator</span><small class="grey-text">FontEnd Developer</small></div>
-					</div>
-					<div class="status"><small class="grey-text">550kb</small></div>
-				</div>
-			</a></li>
-		<li class="auto-suggestion"><a class="collection-item" href="#">
-				<div class="display-flex">
-					<div class="display-flex align-item-center flex-grow-1">
-						<div class="avatar"><img src="./app-assets/images/icon/xls-image.png" width="24" height="30" alt="sample image"></div>
-						<div class="member-info display-flex flex-column"><span class="black-text">25 Xls File
-								Uploaded</span><small class="grey-text">Digital Marketing Manager</small></div>
-					</div>
-					<div class="status"><small class="grey-text">20kb</small></div>
-				</div>
-			</a></li>
-		<li class="auto-suggestion"><a class="collection-item" href="#">
-				<div class="display-flex">
-					<div class="display-flex align-item-center flex-grow-1">
-						<div class="avatar"><img src="./app-assets/images/icon/jpg-image.png" width="24" height="30" alt="sample image"></div>
-						<div class="member-info display-flex flex-column"><span class="black-text">Anna
-								Strong</span><small class="grey-text">Web Designer</small></div>
-					</div>
-					<div class="status"><small class="grey-text">37kb</small></div>
-				</div>
-			</a></li>
-		<li class="auto-suggestion-title"><a class="collection-item" href="#">
-				<h6 class="search-title">MEMBERS</h6>
-			</a></li>
-		<li class="auto-suggestion"><a class="collection-item" href="#">
-				<div class="display-flex">
-					<div class="display-flex align-item-center flex-grow-1">
-						<div class="avatar"><img class="circle" src="./app-assets/images/avatar/avatar-7.png" width="30" alt="sample image"></div>
-						<div class="member-info display-flex flex-column"><span class="black-text">John Doe</span><small class="grey-text">UI designer</small></div>
-					</div>
-				</div>
-			</a></li>
-		<li class="auto-suggestion"><a class="collection-item" href="#">
-				<div class="display-flex">
-					<div class="display-flex align-item-center flex-grow-1">
-						<div class="avatar"><img class="circle" src="./app-assets/images/avatar/avatar-8.png" width="30" alt="sample image"></div>
-						<div class="member-info display-flex flex-column"><span class="black-text">Michal
-								Clark</span><small class="grey-text">FontEnd Developer</small></div>
-					</div>
-				</div>
-			</a></li>
-		<li class="auto-suggestion"><a class="collection-item" href="#">
-				<div class="display-flex">
-					<div class="display-flex align-item-center flex-grow-1">
-						<div class="avatar"><img class="circle" src="./app-assets/images/avatar/avatar-10.png" width="30" alt="sample image"></div>
-						<div class="member-info display-flex flex-column"><span class="black-text">Milena
-								Gibson</span><small class="grey-text">Digital Marketing</small></div>
-					</div>
-				</div>
-			</a></li>
-		<li class="auto-suggestion"><a class="collection-item" href="#">
-				<div class="display-flex">
-					<div class="display-flex align-item-center flex-grow-1">
-						<div class="avatar"><img class="circle" src="./app-assets/images/avatar/avatar-12.png" width="30" alt="sample image"></div>
-						<div class="member-info display-flex flex-column"><span class="black-text">Anna
-								Strong</span><small class="grey-text">Web Designer</small></div>
-					</div>
-				</div>
-			</a></li>
-	</ul>
-	<ul class="display-none" id="page-search-title">
-		<li class="auto-suggestion-title"><a class="collection-item" href="#">
-				<h6 class="search-title">PAGES</h6>
-			</a></li>
-	</ul>
-	<ul class="display-none" id="search-not-found">
-		<li class="auto-suggestion"><a class="collection-item display-flex align-items-center" href="#"><span class="material-icons">error_outline</span><span class="member-info">No results found.</span></a>
-		</li>
-	</ul>
-
-
 
 	<!-- BEGIN: SideNav-->
 	<aside class="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-dark sidenav-active-square">
@@ -197,7 +103,9 @@ License: You must have a valid license purchased only from themeforest(the above
 			<li class="bold"><a class="waves-effect waves-cyan " href="add-product.html"><i class="material-icons">mail_outline</i><span class="menu-title" data-i18n="Mail">Thêm sản phẩm</span></a></li>
 			<li class="bold"><a class="waves-effect waves-cyan " href="products.html"><i class="material-icons">chat_bubble_outline</i><span class="menu-title" data-i18n="Chat">Danh sách sản phẩm</span></a></li>
 			<li class="navigation-header"><a class="navigation-header-text">ĐƠN HÀNG</a><i class="navigation-header-icon material-icons">more_horiz</i></li>
-			<li class="bold"><a class="waves-effect waves-cyan " href="invoices.html"><i class="material-icons">chat_bubble_outline</i><span class="menu-title" data-i18n="Chat">Danh sách đơn hàng</span></a></li>
+			<li class="bold"><a class="waves-effect waves-cyan " href="invoices.html"><i class="material-icons">add_shopping_cart</i><span class="menu-title" data-i18n="Chat">Danh sách đơn hàng</span></a></li>
+			<li class="navigation-header"><a class="navigation-header-text">KHÁCH HÀNG</a><i class="navigation-header-icon material-icons">more_horiz</i></li>
+			<li class="bold"><a class="waves-effect waves-cyan " href="users.html"><i class="material-icons">person_outline</i><span class="menu-title" data-i18n="Chat">Danh sách khách hàng</span></a></li>
 			<!-- <li class="bold"><a class="waves-effect waves-cyan " href="user-profile-page.html"><i class="material-icons">person_outline</i><span class="menu-title" data-i18n="User Profile">User Profile</span></a></li>
 			<li class="bold"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">content_paste</i><span class="menu-title" data-i18n="Pages">Pages</span></a>
 				<div class="collapsible-body">

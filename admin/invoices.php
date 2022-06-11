@@ -120,25 +120,6 @@ if (!empty(getGET('invoice_status_id'))) {
 													</tr>
 												</thead>
 												<tbody>
-													<!-- <tr>
-														<td>Alvin</td>
-														<td>Eclair</td>
-														<td>$0.87</td>
-														<td>qwe</td>
-														<td>asd</td>
-														<td>zxc</td>
-														<td><span class="chip lighten-5 green green-text">PAID</span></td>
-														<td>
-															<div class="invoice-action">
-																<a href="app-invoice-view.html" class="invoice-action-view mr-4">
-																	<i class="material-icons">remove_red_eye</i>
-																</a>
-																<a href="app-invoice-edit.html" class="invoice-action-edit">
-																	<i class="material-icons">edit</i>
-																</a>
-															</div>
-														</td>
-													</tr> -->
 													<?php
 													// $invoices = new Invoice;
 													foreach ($listInvoices as $k => $v) {
@@ -153,7 +134,8 @@ if (!empty(getGET('invoice_status_id'))) {
 																<td>' . ($v['invoice_status_id'] == 1 ? '<span class="chip lighten-5 red red-text">' . $status_name . '</span>' : ($v['invoice_status_id'] == 2 ? '<span class="chip lighten-5 orange orange-text">' . $status_name . '</span>' : '<span class="chip lighten-5 green green-text">' . $status_name . '</span>')) . '</td>
 																<td>
 																	<div class="invoice-action">
-																		<a href="invoice.html?invoice_id=' . $v['invoice_id'] . '" class="invoice-action-view mr-4"><i class="material-icons">remove_red_eye</i></a>
+																		<a href="user.html?user_id=' . $v['user_id'] . '" class="invoice-action-view mr-4" title="Thông tin khách hàng"><i class="material-icons">perm_identity</i></a>
+																		<a href="invoice.html?invoice_id=' . $v['invoice_id'] . '" class="invoice-action-view mr-4" title="Chi tiết đơn hàng"><i class="material-icons">remove_red_eye</i></a>
 																	</div>
 																</td>
 															</tr>';

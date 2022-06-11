@@ -8,6 +8,8 @@ RewriteRule ^add-product.html$ product.php?act=add [L]
 RewriteRule ^edit-product.html$ product.php?act=edit [QSA]
 RewriteRule ^invoices.html$ invoices.php [L]
 RewriteRule ^invoice.html$ invoice.php [QSA]
+RewriteRule ^users.html$ users.php [L]
+RewriteRule ^user.html$ user.php [QSA]
 #RewriteRule ^income-(.*).html$ index.php?p=income&id=$1 [L]
 
 RewriteRule ^api/(.*).json$ api/index.php?t=$1 [L]

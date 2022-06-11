@@ -245,6 +245,13 @@ class User extends DB
 		$total = mysqli_fetch_assoc($total)['total'];
 		return $total;
 	}
+	public function getCountSearch($keyword)
+	{
+		$keyword = mysqli_escape_string($this->conn, $keyword);
+		$total = mysqli_query($this->conn, "SELECT COUNT(user_id) AS total FROM users WHERE MATCH(user_fullname, user_email, user_phone_number) AGAINST ('$keyword' IN BOOLEAN MODE)");
+		$total = mysqli_fetch_assoc($total)['total'];
+		return $total;
+	}
 	public function validUser($username)
 	{
 		$username = mysqli_escape_string($this->conn, $username);
@@ -286,6 +293,33 @@ class User extends DB
 			else
 				return false;
 		} else return false;
+	}
+	public function search($keyword, $page = 1, $limit = DATA_PER_PAGE)
+	{
+		$keyword = mysqli_escape_string($this->conn, $keyword);
+		$offset = $this->Offset($page, $limit);
+		$a = mysqli_query($this->conn, "SELECT * FROM users WHERE MATCH(user_fullname, user_email, user_phone_number) AGAINST ('$keyword' IN BOOLEAN MODE) ORDER BY user_id DESC " . $offset);
+		$b = array();
+		if (mysqli_num_rows($a))
+			while ($row = mysqli_fetch_assoc($a)) {
+				unset($row['password']);
+				$b = array_merge($b, array($row));
+			}
+		mysqli_free_result($a);
+		return $b;
+	}
+	public function getUsers($page = 1, $limit = DATA_PER_PAGE)
+	{
+		$offset = $this->Offset($page, $limit);
+		$a = mysqli_query($this->conn, "SELECT * FROM users ORDER BY user_id DESC " . $offset);
+		$b = array();
+		if (mysqli_num_rows($a))
+			while ($row = mysqli_fetch_assoc($a)) {
+				unset($row['password']);
+				$b = array_merge($b, array($row));
+			}
+		mysqli_free_result($a);
+		return $b;
 	}
 	public function getUser($user_id)
 	{
@@ -583,11 +617,32 @@ class InvoiceStatus extends DB
 }
 class Invoice extends DB
 {
-	private $invoiceWithInvoiceStatus = 'SELECT invoice_id, invoice_user_fullname, invoice_user_phone_number, invoice_user_email, invoice_subtotal, invoice_fee_transport, invoice_fee_bond, IST.*, invoice_num_rental_days, invoice_created_at FROM invoices I LEFT JOIN invoice_status IST ON I.invoice_status_id = IST.invoice_status_id';
+	private $invoiceWithInvoiceStatus = 'SELECT invoice_id, user_id, invoice_user_fullname, invoice_user_phone_number, invoice_user_email, invoice_subtotal, invoice_fee_transport, invoice_fee_bond, IST.*, invoice_num_rental_days, invoice_created_at FROM invoices I LEFT JOIN invoice_status IST ON I.invoice_status_id = IST.invoice_status_id';
+	public function getCount()
+	{
+		$total = mysqli_query($this->conn, "SELECT COUNT(invoice_id) AS total FROM invoices");
+		$total = mysqli_fetch_assoc($total)['total'];
+		return $total;
+	}
 	public function getCountInvoicesByInvoiceStatusId($invoice_status_id)
 	{
 		$invoice_status_id = mysqli_escape_string($this->conn, $invoice_status_id);
 		$total = mysqli_query($this->conn, "SELECT COUNT(invoice_id) AS total FROM invoices WHERE invoice_status_id = '$invoice_status_id'");
+		$total = mysqli_fetch_assoc($total)['total'];
+		return $total;
+	}
+	public function getCountByUserId($user_id)
+	{
+		$user_id = mysqli_escape_string($this->conn, $user_id);
+		$total = mysqli_query($this->conn, "SELECT COUNT(invoice_id) AS total FROM invoices WHERE user_id = '$user_id'");
+		$total = mysqli_fetch_assoc($total)['total'];
+		return $total;
+	}
+	public function getCountByUserIdWithInvoiceStatusId($user_id, $invoice_status_id)
+	{
+		$user_id = mysqli_escape_string($this->conn, $user_id);
+		$invoice_status_id = mysqli_escape_string($this->conn, $invoice_status_id);
+		$total = mysqli_query($this->conn, "SELECT COUNT(invoice_id) AS total FROM invoices WHERE user_id = '$user_id' AND invoice_status_id = '$invoice_status_id'");
 		$total = mysqli_fetch_assoc($total)['total'];
 		return $total;
 	}
@@ -601,12 +656,6 @@ class Invoice extends DB
 			while ($row = mysqli_fetch_assoc($a)) $b = array_merge($b, array($row));
 		mysqli_free_result($a);
 		return $b;
-	}
-	public function getCount()
-	{
-		$total = mysqli_query($this->conn, "SELECT COUNT(invoice_id) AS total FROM invoices");
-		$total = mysqli_fetch_assoc($total)['total'];
-		return $total;
 	}
 	public function getInvoices($page = 1, $limit = DATA_PER_PAGE)
 	{
@@ -742,6 +791,16 @@ class Statistic extends DB
 	{
 		$a = new Invoice();
 		return $a->getCountInvoicesByInvoiceStatusId($invoice_status_id);
+	}
+	public function totalInvoicesByUserId($user_id)
+	{
+		$a = new Invoice();
+		return $a->getCountByUserId($user_id);
+	}
+	public function totalInvoicesByUserIdWithInvoiceStatusId($user_id, $invoice_status_id)
+	{
+		$a = new Invoice();
+		return $a->getCountByUserIdWithInvoiceStatusId($user_id, $invoice_status_id);
 	}
 	public function totalRevenue()
 	{
