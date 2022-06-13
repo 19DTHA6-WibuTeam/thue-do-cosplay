@@ -72,7 +72,7 @@ $statistic = new Statistic();
 												<p>Doanh thu</p>
 											</div>
 											<div class="col s5 m5 right-align">
-												<h5 class="mb-0 white-text"><?php echo formatPrice($statistic->totalRevenue()); ?>đ</h5>
+												<h5 class="mb-0 white-text"><?php echo formatPrice($statistic->totalRevenue()/1000); ?>K đ</h5>
 												<p class="no-margin"></p>
 												<p>(ước tính)</p>
 											</div>
