@@ -4,8 +4,8 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 session_start();
 
 define('DB_HOST', '103.200.23.160');
-define('DB_USER', 'phatdevx_pvp');
-define('DB_PASS', 'Phat@123456');
+define('DB_USER', 'phatdevx_wibu_team');
+define('DB_PASS', 'Wibu@2022');
 define('DB_NAME', 'phatdevx_thue_do_cosplay');
 // $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME) or die('Không thể kết nối tới database');
 // mysqli_set_charset($conn, "utf8");
