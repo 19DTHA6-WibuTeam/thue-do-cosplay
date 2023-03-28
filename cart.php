@@ -38,30 +38,6 @@ include 'views/header.php';
 									</tr>
 								</thead>
 								<tbody>
-									<!-- <tr>
-										<td class="product_remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
-										<td class="product_thumb"><a href="#"><img src="assets/img/s-product/product.webp" alt=""></a></td>
-										<td class="product_name"><a href="#">Handbag fringilla</a></td>
-										<td class="product-price">£65.00</td>
-										<td class="product_quantity"><label>Quantity</label> <input min="0" max="100" value="1" type="number"></td>
-										<td class="product_total">£130.00</td>
-									</tr>
-									<tr>
-										<td class="product_remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
-										<td class="product_thumb"><a href="#"><img src="assets/img/s-product/product2.webp" alt=""></a></td>
-										<td class="product_name"><a href="#">Handbags justo</a></td>
-										<td class="product-price">£90.00</td>
-										<td class="product_quantity"><label>Quantity</label> <input min="0" max="100" value="1" type="number"></td>
-										<td class="product_total">£180.00</td>
-									</tr>
-									<tr>
-										<td class="product_remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
-										<td class="product_thumb"><a href="#"><img src="assets/img/s-product/product3.webp" alt=""></a></td>
-										<td class="product_name"><a href="#">Handbag elit</a></td>
-										<td class="product-price">£80.00</td>
-										<td class="product_quantity"><label>Quantity</label> <input min="0" max="100" value="1" type="number"></td>
-										<td class="product_total">£160.00</td>
-									</tr> -->
 									<?php
 									$carts = new Cart;
 									$cart_subtotal = 0;
