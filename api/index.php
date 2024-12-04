@@ -78,20 +78,19 @@ switch (strtolower(getREQUEST('action'))) {
 			unset($a['user_password']);
 			unset($a['user_bank_account_number']);
 			unset($a['user_bank_name']);
-			$a['user_token'] = $users->Token($user);
+			$a['user_token'] = $users->Token($a);
 			$res['success'] = true;
 		} else $a = null;
 		$res['data'] = $a;
 		break;
 	case 'register':
 		$res['success'] = $users->register(getREQUEST('fullname'), getREQUEST('email'), getREQUEST('password'));
-		$res['user'] = $a;
 		break;
 	case 'get_user':
 		$a = $users->getUser(getREQUEST('user_id'));
 		if ($a != false) {
 			unset($a['user_password']);
-			$a['user_token'] = $users->Token($user);
+			$a['user_token'] = $users->Token($a);
 			$res['success'] = true;
 		} else $a = null;
 		$res['data'] = $a;

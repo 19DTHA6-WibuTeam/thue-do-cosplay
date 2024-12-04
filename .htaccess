@@ -20,4 +20,4 @@ RewriteRule ^404.html$ 404.php [L]
 #RewriteRule . / [L,R=301]
 ErrorDocument 404 "Wut!"
 
-RewriteRule ^api/(.*).json$ api/index.php?t=$1 [L]
+RewriteRule ^api/(.*).json$ api/index.php?action=$1 [L]
